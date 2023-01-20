@@ -17,5 +17,10 @@ namespace pokedexapi.Data
         public DbSet<SpecialStage> SpecialStage { get; set; }
 
         public DbSet<Stats> Stats { get; set; }
+
+        public DbSet<PokemonType> PokemonType { get; set; }
+
+        public DbSet<Weakness> Weakness { get; set; }
+    
     }
 }
