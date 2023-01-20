@@ -1,18 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using pokedexapi.Data;
+using PokedexApi.Repositories.Implements;
+using PokedexApi.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Add services to the container.
+
 builder.Services.AddDbContextPool<DataContext>(opt =>
                 opt.UseMySql(mySqlConnection,ServerVersion.AutoDetect(mySqlConnection)));
+
 builder.Services.AddScoped<DataContext, DataContext>();
+builder.Services.AddScoped<IWeaknessRepository, WeaknessRepository>();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
