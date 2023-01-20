@@ -7,13 +7,16 @@ namespace PokedexApi.Entities
     [Table("Stats")]
     public class Stats
     {
-
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
-        [ForeignKey("FK_Pokemon")]
-        public Pokemon Pokemon { get; set; }
+        [ForeignKey("Pokemon")]
+        public Guid PokemonId { get; set; }
+        public  Pokemon Pokemon { get; set; }
+
+        [ForeignKey("SpecialStage")]
+        public Guid SpecialStageId { get; set; }
+        public SpecialStage SpecialStage { get; set; }
 
         [Required]
         public int HealthPoints { get; set; }
@@ -32,7 +35,5 @@ namespace PokedexApi.Entities
 
         [Required]
         public int Speed { get; set; }
-
-
     }
 }

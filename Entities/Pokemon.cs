@@ -7,7 +7,6 @@ namespace PokedexApi.Entities
     [Table("Pokemon")]
     public class Pokemon
     {
-
         [Key]
         public Guid Id { get; set; }
 
@@ -23,12 +22,12 @@ namespace PokedexApi.Entities
         public string Name { get; set; }
 
         [Required]
-        [StringLength(200, ErrorMessage = "The length of the field must be up to 50 characters long")]
-        public string Description { get; set; }
-
-        [Required]
-        [StringLength(200, ErrorMessage = "The length of the field must be up to 50 characters long")]
+        [StringLength(300, ErrorMessage = "The length of the field must be up to 300 characters long")]
         public string Image { get; set; }
+        
+        [Required]
+        [StringLength(200, ErrorMessage = "The length of the field must be up to 200 characters long")]
+        public string Description { get; set; }
 
         [Required]
         public double Height { get; set; }
@@ -37,21 +36,24 @@ namespace PokedexApi.Entities
         public double Weight { get; set; }
 
         [Required]
-        public GenderEnum Gender { get; set; }
+        [EnumDataType(typeof(GenderEnum))]
+        public int Gender { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(RarityEnum))]
+        public int Rarity { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = "The length of the field must be up to 50 characters long")]
         public string Region { get; set; }
 
-        [Required]
-        [StringLength(50, ErrorMessage = "The length of the field must be up to 50 characters long")]
-        public string Rarity { get; set; }
 
-        [Required]
-        public List<string> Type { get; set; }
-
-        [Required]
-        public List<string> Weakness { get; set; }
-
+        #region prop navigates
+        public virtual List<SpecialStage> SpecialStage { get; set; }
+        public virtual List<PokemonType> PokemonType { get; set; }
+        public virtual List<Weakness> Weakness { get; set; }
+        public virtual Evolution Evolution { get; set; }
+        public virtual Stats Stats { get; set; }
+        #endregion
     }
 }
