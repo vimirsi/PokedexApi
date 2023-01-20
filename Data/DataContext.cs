@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PokedexApi.Entities;
 
 namespace pokedexapi.Data
 {
@@ -9,6 +10,12 @@ namespace pokedexapi.Data
         {
         }
 
-        // public DbSet<Product> Products { get; set; }
+        public DbSet<Evolution> Evolution { get; set; }
+
+        public DbSet<Pokemon> Pokemon { get; set; }
+
+        public DbSet<SpecialStage> SpecialStage { get; set; }
+
+        public DbSet<Stats> Stats { get; set; }
     }
 }
