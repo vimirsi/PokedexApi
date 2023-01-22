@@ -2,10 +2,10 @@ namespace PokedexApi.Enums
 {
     public enum RarityEnum
     {
-        Common,
-        Rare,
-        Sub_Legendary,
-        Legendary,
-        Mythical
+        Common = 1,
+        Rare = 2,
+        Sub_Legendary = 3,
+        Legendary = 4,
+        Mythical = 5
     }
 }
