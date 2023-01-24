@@ -18,20 +18,14 @@ dotnet run --project PokedexApi.Web
 * Run Site API watching changes
 
 ```bash
-dotnet watch --project source/All.Signature.Web.Site run
+dotnet watch --project PokedexApi.Web run
 ```
 
-### Running migrations explicit with dotnet cli
-
-The migrations will run automatically when running the projects *All.Signature.Web.Site* or *All.Signature.Web.Admin* in development environment.
-If need to run migrations explicitly, you can do that running the console project *All.Signature.Infrastructure.Data.Migrations*.
-
-* Edit the source/All.Signature.Infrastructure.Data.Migrations/appsettings.json file to set the db connection string if required.
 
 ## Adding package to a project
 
 ```bash
-dotnet add source/All.Signature.Infrastructure.Data.Migrations package Npgsql
+dotnet add PokedexApi.Web package Npgsql
 ```
 
 
