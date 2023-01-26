@@ -1,4 +1,5 @@
 using PokedexApi.Core.Enums;
+using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Entities;
 using PokedexApi.Domain.Interfaces;
 
@@ -13,16 +14,16 @@ namespace PokedexApi.Infra.Implements
             _context = context;
         }
 
-        public async Task<Weakness> Add(Guid? pokemonId, Guid? specialStageId, TypeEnum typeName)
+        public async Task<Weakness> Add(WeaknessAddDTO dto)
         {
             var id = Guid.NewGuid();
 
             var weakness = new Weakness()
             {
                 Id = id,
-                PokemonId = pokemonId,
-                SpecialStageId = specialStageId,
-                TypeName = ((int)typeName)
+                PokemonId = dto.PokemonId,
+                SpecialStageId = dto.SpecialStageId,
+                TypeName = ((int)dto.TypeName)
             };
 
             _context.Weakness.Add(weakness);

@@ -9,7 +9,7 @@ namespace PokedexApi.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        
+
         [ForeignKey("Pokemon")]
         public Guid? PokemonId { get; set; }
         public Pokemon Pokemon { get; set; }

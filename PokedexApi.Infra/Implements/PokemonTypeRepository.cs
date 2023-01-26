@@ -1,4 +1,5 @@
 ﻿using PokedexApi.Core.Enums;
+using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Entities;
 using PokedexApi.Domain.Interfaces;
 
@@ -13,21 +14,21 @@ namespace PokedexApi.Infra.Implements
             _context = context;
         }
 
-        public async Task<PokemonType> Add(Guid? pokemonId, Guid? specialStageId, TypeEnum typeName)
+        public async Task<PokemonType> Add(PokemonTypeAddDTO dto)
         {
             var id = Guid.NewGuid();
 
-            if(pokemonId != null && specialStageId != null)
+            if(dto.PokemonId != null && dto.SpecialStageId != null)
             {
-                throw new InvalidDataException("Mona, com todo o respeito... você é maluca?");
+                throw new InvalidDataException();
             }
 
             var pokemonType = new PokemonType()
             {
                 Id = id,
-                PokemonId = pokemonId,
-                SpecialStageId = specialStageId,
-                TypeName = ((int)typeName)
+                PokemonId = dto.PokemonId,
+                SpecialStageId = dto.SpecialStageId,
+                TypeName = ((int)dto.TypeName)
             };
 
             _context.PokemonType.Add(pokemonType);
@@ -36,27 +37,27 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(pokemonType);
         }
 
-        public async Task<PokemonType> GetBy(Guid? pokemonId, Guid? specialStageId)
-        {            
-            if(pokemonId is null)
+        public async Task<PokemonType> GetBy(PokemonTypeGetByDTO dto)
+        {
+            if (dto.PokemonId is null)
             {
-                PokemonType pokemonType = _context.PokemonType.Where(x => x.SpecialStageId == specialStageId).FirstOrDefault();
+                PokemonType pokemonType = _context.PokemonType.Where(x => x.SpecialStageId == dto.SpecialStageId).FirstOrDefault();
 
                 return await Task.FromResult(pokemonType);
             }
             else
             {
-                PokemonType pokemonType = _context.PokemonType.Where(x => x.PokemonId == pokemonId).FirstOrDefault();
+                PokemonType pokemonType = _context.PokemonType.Where(x => x.PokemonId == dto.PokemonId).FirstOrDefault();
 
                 return await Task.FromResult(pokemonType);
             }
         }
 
-        public async Task<PokemonType> Update(Guid Id, TypeEnum typeName)
+        public async Task<PokemonType> Update(PokemonTypeUpdateDTO dto)
         {
-            PokemonType pokemonType = await _context.PokemonType.FindAsync(Id);
+            PokemonType pokemonType = await _context.PokemonType.FindAsync(dto.Id);
 
-            pokemonType.TypeName = ((int)typeName);
+            pokemonType.TypeName = ((int)dto.TypeName);
 
             _context.PokemonType.Update(pokemonType);
             _context.SaveChanges();
@@ -64,9 +65,9 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(pokemonType);
         }
 
-        public async Task<object> Delete(Guid id)
+        public async Task<object> Delete(PokemonTypeDeleteDTO dto)
         {
-            PokemonType pokemonType = await _context.PokemonType.FindAsync(id);
+            PokemonType pokemonType = await _context.PokemonType.FindAsync(dto.Id);
 
             _context.PokemonType.Remove(pokemonType);
             _context.SaveChanges();
