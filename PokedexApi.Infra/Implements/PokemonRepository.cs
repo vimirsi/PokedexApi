@@ -37,5 +37,31 @@ namespace PokedexApi.Infra.Implements
 
             return await Task.FromResult(Pokemon);
         }
+
+        public async Task<IEnumerable<Pokemon>> All(PokemonListAllDTO dto)
+        {
+            IEnumerable<Pokemon> pokemons = _context.Pokemon
+                .Skip((dto.Page - 1) * dto.PageSize)
+                .Take(dto.PageSize)
+                .ToList();
+
+            return await Task.FromResult(pokemons);
+        }
+
+        public async Task<IEnumerable<Pokemon>> GetWithParams(PokemonGetWithParamsDTO dto)
+        {
+            IEnumerable<Pokemon> pokemons = _context.Pokemon
+                .Skip((dto.Page - 1) * dto.PageSize)
+                .Take(dto.PageSize)
+                .ToList();
+            
+            pokemons = pokemons
+                .Where(x => dto.Category != null ? (x.Category.Contains(dto.Category)) : true)
+                .Where(x => dto.Name != null ? (x.Name.Contains(dto.Name)) : true)
+                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true)
+                .Where(x => dto.Category != null ? (x.Category.Contains(dto.Category)) : true);
+
+            return await Task.FromResult(pokemons);
+        }
     }
 }
