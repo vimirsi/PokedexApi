@@ -1,5 +1,9 @@
 # PokedexApi .NET 7
 
+## DER
+
+- https://app.diagrams.net/#G1mm6mWGa6mGQSLw6jiIx_VUHNfQONdM1H
+
 ## Solution Structure
 
 - PokedexApi.Core - Entities, Exceptions, etc.
