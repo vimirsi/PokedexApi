@@ -16,6 +16,7 @@ builder.Services.AddDbContextPool<DataContext>(opt =>
 
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddScoped<IWeaknessRepository, WeaknessRepository>();
+builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
