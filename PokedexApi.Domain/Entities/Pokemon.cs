@@ -52,7 +52,7 @@ namespace PokedexApi.Domain.Entities
         public virtual List<SpecialStage> SpecialStage { get; set; }
         public virtual List<PokemonType> PokemonType { get; set; }
         public virtual List<Weakness> Weakness { get; set; }
-        public virtual Evolution Evolution { get; set; }
+        public virtual List<Evolution> Evolution { get; set; }
         public virtual Stats Stats { get; set; }
         #endregion
     }

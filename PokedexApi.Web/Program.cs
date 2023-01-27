@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PokedexApi.Domain.Interfaces;
 using PokedexApi.Infra;
 using PokedexApi.Infra.Implements;
+using PokedexApi.Web.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ string mySqlConnection = builder.Configuration.GetConnectionString("DefaultConne
 
 builder.Services.AddDbContextPool<DataContext>(opt =>
                 opt.UseMySql(mySqlConnection,ServerVersion.AutoDetect(mySqlConnection)));
+
+builder.Services.AddAutoMapper(typeof(DomainProfile));
 
 builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddScoped<IWeaknessRepository, WeaknessRepository>();
