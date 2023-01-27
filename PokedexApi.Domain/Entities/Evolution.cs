@@ -12,7 +12,6 @@ namespace PokedexApi.Domain.Entities
         [ForeignKey("Pokemon")]
         public Guid? PreEvolution { get; set; }
         public Pokemon Pokemon { get; set; }
-
         public int PokemonStage { get; set; }
     }
 }
