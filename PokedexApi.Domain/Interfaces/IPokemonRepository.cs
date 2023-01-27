@@ -5,8 +5,10 @@ namespace PokedexApi.Domain.Interfaces
 {
     public interface IPokemonRepository
     {
-        Task<Pokemon> Add (PokemonAddDTO dto);
-        Task<IEnumerable<Pokemon>> All (PokemonListAllDTO dto);
-        Task<IEnumerable<Pokemon>> GetWithParams (PokemonGetWithParamsDTO dto);
+        Task<Pokemon> AddAsync (PokemonAddDTO dto);
+        Task<object> DeleteAsync (Guid id);
+        Task<Pokemon> GetByIdAsync (int dexNumber);
+        Task<IEnumerable<Pokemon>> AllAsync (PokemonListAllDTO dto);
+        Task<IEnumerable<Pokemon>> GetWithParamsAsync (PokemonGetWithParamsDTO dto);
     }
 }
