@@ -13,11 +13,11 @@ namespace PokedexApi.Infra.Implements
             _context = context;
         }
 
-        public async Task<Pokemon> Add(PokemonAddDTO dto)
+        public async Task<Pokemon> AddAsync(PokemonAddDTO dto)
         {
             var id = Guid.NewGuid();
 
-            var Pokemon = new Pokemon()
+            var pokemon = new Pokemon()
             {
                 Id = id,
                 DexNumber = dto.DexNumber,
@@ -32,13 +32,37 @@ namespace PokedexApi.Infra.Implements
                 Region = dto.Region,
             };
 
-            _context.Add(Pokemon);
+            _context.Add(pokemon);
             _context.SaveChanges();
 
-            return await Task.FromResult(Pokemon);
+            return await Task.FromResult(pokemon);
         }
 
-        public async Task<IEnumerable<Pokemon>> All(PokemonListAllDTO dto)
+        public async Task<object> DeleteAsync(Guid id)
+        {
+            Pokemon pokemon = await _context.Pokemon.FindAsync(id);
+
+            _context.Pokemon.Remove(pokemon);
+            _context.SaveChanges();
+
+            return await Task.FromResult(new object(){});
+        }
+
+        public async Task<Pokemon> GetByIdAsync(int dexNumber)
+        {
+            Pokemon pokemon = _context.Pokemon
+                .Where(x => x.DexNumber == dexNumber)
+                .FirstOrDefault();
+
+            if(pokemon is null)
+            {
+                throw new Exception($"Not found pokemon with id {dexNumber}");
+            }
+
+            return await Task.FromResult(pokemon);
+        }
+
+        public async Task<IEnumerable<Pokemon>> AllAsync(PokemonListAllDTO dto)
         {
             IEnumerable<Pokemon> pokemons = _context.Pokemon
                 .Skip((dto.Page - 1) * dto.PageSize)
@@ -48,7 +72,7 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(pokemons);
         }
 
-        public async Task<IEnumerable<Pokemon>> GetWithParams(PokemonGetWithParamsDTO dto)
+        public async Task<IEnumerable<Pokemon>> GetWithParamsAsync(PokemonGetWithParamsDTO dto)
         {
             IEnumerable<Pokemon> pokemons = _context.Pokemon
                 .Skip((dto.Page - 1) * dto.PageSize)
