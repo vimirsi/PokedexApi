@@ -1,8 +1,8 @@
-﻿using PokedexApi.Core.Enums;
+using PokedexApi.Core.Enums;
 
-namespace PokedexApi.Domain.Dtos
+namespace PokedexApi.Web.FormRequest
 {
-    public class SpecialStageAddDTO
+    public class SpecialStageCreateFormRequest
     {
         public Guid PokemonId { get; set; }
         public int DexNumber { get; set; }

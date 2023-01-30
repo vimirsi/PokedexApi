@@ -42,6 +42,11 @@ namespace PokedexApi.Infra.Implements
         {
             Pokemon pokemon = await _context.Pokemon.FindAsync(id);
 
+            if(pokemon is null)
+            {
+                throw new Exception($"Not found pokemon with id {id}");
+            }
+
             _context.Pokemon.Remove(pokemon);
             _context.SaveChanges();
 
