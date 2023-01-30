@@ -3,30 +3,30 @@ using Microsoft.AspNetCore.Mvc;
 using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Interfaces;
 using PokedexApi.Web.FormRequest;
-using PokedexApi.Web.Resources;
 
 namespace PokedexApi.Web.Controllers
 {
     [ApiController]
-    [Route("pokemon")]
-    public class PokemonController : ControllerBase
+    [Route("special-stage")]
+    public class SpecialStageController : ControllerBase
     {
-        private readonly IPokemonRepository _repository;
+        private readonly ISpecialStageRepository _repository;
         private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonRepository repository, IMapper mapper)
+        public SpecialStageController(ISpecialStageRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add ([FromBody] PokemonCreateFormRequest payload)
+        public async Task<IActionResult> Add ([FromBody] SpecialStageCreateFormRequest payload)
         {
             try
             {
-                var result = await _repository.AddAsync(new PokemonAddDTO
+                var result = await _repository.AddAsync(new SpecialStageAddDTO
                 {
+                    PokemonId = payload.PokemonId,
                     DexNumber = payload.DexNumber,
                     Category = payload.Category,
                     Name = payload.Name,
@@ -39,7 +39,7 @@ namespace PokedexApi.Web.Controllers
                     Region = payload.Region
                 });
 
-                return Created("Pokemon has been registered", result);
+                return Created("Special Stage has been registered", result);
             }
             catch (Exception ex)
             {
@@ -67,35 +67,13 @@ namespace PokedexApi.Web.Controllers
         {
             try
             {
-                var result = await _repository.AllAsync(new PokemonListAllDTO
+                var result = await _repository.AllAsync(new SpecialStageListAllDTO
                 {
                     Page = payload.Page,
                     PageSize = payload.PageSize
                 });
 
-                return Ok(_mapper.Map<IEnumerable<PokemonListAllResource>>(result));
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("options")]
-        public async Task<IActionResult> GetWithParams ([FromQuery] PokemonGetWithParamsFormRequest payload)
-        {
-            try
-            {
-                var result = await _repository.GetWithParamsAsync(new PokemonGetWithParamsDTO
-                {
-                    Category = payload.Category,
-                    Name = payload.Name,
-                    Region = payload.Region,
-                    Page = payload.Page,
-                    PageSize = payload.PageSize
-                });
-
-                return Ok(_mapper.Map<IEnumerable<PokemonGetWithParamsResource>>(result));
+                return Ok(result);
             }
             catch(Exception ex)
             {
