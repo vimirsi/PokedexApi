@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PokedexApi.Domain.Dtos
 {
-    public class PokemonTypeDeleteDTO
+    public class TypePokemonDeleteDTO
     {
         public Guid Id { get; set; }
 

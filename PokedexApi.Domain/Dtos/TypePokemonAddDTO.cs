@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace PokedexApi.Domain.Dtos
 {
-    public class PokemonTypeUpdateDTO
+    public class TypePokemonAddDTO
     {
-        public Guid Id { get; set; }
+        public Guid? PokemonId { get; set; }
+
+        public Guid? SpecialStageId { get; set; }
+
         public int TypeName { get; set; }
     }
 }

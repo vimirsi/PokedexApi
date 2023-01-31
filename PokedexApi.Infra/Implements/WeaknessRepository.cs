@@ -14,7 +14,7 @@ namespace PokedexApi.Infra.Implements
             _context = context;
         }
 
-        public async Task<Weakness> Add(WeaknessAddDTO dto)
+        public async Task<Weakness> AddAsync(WeaknessAddDTO dto)
         {
             var id = Guid.NewGuid();
 

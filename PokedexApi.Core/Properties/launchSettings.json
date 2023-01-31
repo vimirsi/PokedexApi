@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PokedexApi.Core": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Biblioteca\\Desktop\\Projetos\\PokedexApi\\PokedexApi.Web"
+    }
+  }
+}

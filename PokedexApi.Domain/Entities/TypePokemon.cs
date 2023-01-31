@@ -4,8 +4,8 @@ using PokedexApi.Core.Enums;
 
 namespace PokedexApi.Domain.Entities
 {
-    [Table("PokemonType")]
-    public class PokemonType
+    [Table("TypePokemon")]
+    public class TypePokemon
     {
         [Key]
         public Guid Id { get; set; }

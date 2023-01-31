@@ -13,11 +13,38 @@ namespace PokedexApi.Infra.Implements
             _context = context;
         }
 
-        public async Task<Evolution> GetBy(EvolutionAddDTO dto)
+        public async Task<Evolution> AddAsync(EvolutionAddDTO dto)
         {
-            if(dto.PokemonStage == ' ')
+            var id = Guid.NewGuid();
+
+            if (dto.PreEvolution != null)
             {
-                Evolution evolution = _context.Evolution.Where(x => x.PokemonStage == dto.PokemonStage).FirstOrDefault();
+                throw new InvalidDataException();
+            }
+
+            var evolution = new Evolution()
+            {
+                Id = id,
+                PreEvolution = dto.PreEvolution,
+                PokemonStage = dto.PokemonStage
+            };
+
+            _context.Evolution.Add(evolution);
+            _context.SaveChanges();
+
+            return await Task.FromResult(evolution);
+        }
+
+        public async Task<Evolution> GetByParamsAsync(EvolutionGetByParamsDTO dto)
+        {
+            if (dto.PreEvolution != Guid.Empty && dto.PokemonStage != 0)
+            {
+                throw new Exception("Route not able to search for both 'PreEvolution' and 'Pokemon Stage' at the same time. Please use only one of the filters.");
+            }
+            
+            if(dto.PokemonStage == 0)
+            {
+                Evolution evolution = _context.Evolution.Where(x => x.PreEvolution == dto.PreEvolution).FirstOrDefault();
 
                 return await Task.FromResult(evolution);
             }
@@ -27,6 +54,21 @@ namespace PokedexApi.Infra.Implements
 
                 return await Task.FromResult(evolution);
             }
+        }
+
+        public async Task<object> DeleteAsync(Guid id)
+        {
+            Evolution evolution = await _context.Evolution.FindAsync(id);
+
+            if(evolution is null)
+            {
+                throw new Exception($"Not found evolution with id {id}");
+            }
+
+            _context.Evolution.Remove(evolution);
+            _context.SaveChanges();
+
+            return await Task.FromResult(new object() { });
         }
     }
 }

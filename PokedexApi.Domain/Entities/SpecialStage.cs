@@ -54,7 +54,7 @@ namespace PokedexApi.Domain.Entities
 
 
         #region prop navigates
-        public virtual List<PokemonType> PokemonType { get; set; }
+        public virtual List<TypePokemon> TypePokemon { get; set; }
         public virtual List<Weakness> Weakness { get; set; }
         public virtual Evolution Evolution { get; set; }
         public virtual Stats Stats { get; set; }

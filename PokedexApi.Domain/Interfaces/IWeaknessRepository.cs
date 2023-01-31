@@ -8,6 +8,6 @@ namespace PokedexApi.Domain.Interfaces
 {
     public interface IWeaknessRepository
     {
-        Task<Weakness> Add (WeaknessAddDTO dto);
+        Task<Weakness> AddAsync (WeaknessAddDTO dto);
     }
 }

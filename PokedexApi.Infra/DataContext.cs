@@ -19,7 +19,7 @@ namespace PokedexApi.Infra
 
         public DbSet<Stats> Stats { get; set; }
 
-        public DbSet<PokemonType> PokemonType { get; set; }
+        public DbSet<TypePokemon> TypePokemon { get; set; }
 
         public DbSet<Weakness> Weakness { get; set; }
     }
