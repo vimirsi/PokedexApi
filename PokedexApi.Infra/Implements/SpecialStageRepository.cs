@@ -7,6 +7,7 @@ namespace PokedexApi.Infra.Implements
     public class SpecialStageRepository : ISpecialStageRepository
     {
         private readonly DataContext _context;
+        private static int _PageSize = 10;
 
         public SpecialStageRepository(DataContext context)
         {
@@ -17,19 +18,25 @@ namespace PokedexApi.Infra.Implements
         {
             var id = Guid.NewGuid();
 
+            Pokemon pokemon = _context.Pokemon.Find(dto.PokemonId);
+
+            if(pokemon is null)
+            {
+                throw new Exception($"Not found pokemon with Id: {dto.PokemonId}");
+            }
+            
             var specialStage = new SpecialStage()
             {
                 Id = id,
                 PokemonId = dto.PokemonId,
                 DexNumber = dto.DexNumber,
-                Category = dto.Category,
-                Name = dto.Name,
+                Name = pokemon.Name,
                 Image = dto.Image,
                 Description = dto.Description,
                 Height = dto.Height,
                 Weight = dto.Weight,
-                Gender = ((int)dto.Gender),
-                Rarity = ((int)dto.Rarity),
+                Gender = ((int)pokemon.Gender),
+                Rarity = ((int)pokemon.Rarity),
                 Region = dto.Region,
             };
 
@@ -57,8 +64,9 @@ namespace PokedexApi.Infra.Implements
         public async Task<IEnumerable<SpecialStage>> AllAsync(SpecialStageListAllDTO dto)
         {
             IEnumerable<SpecialStage> specialStage = _context.SpecialStage
-                .Skip((dto.Page - 1) * dto.PageSize)
-                .Take(dto.PageSize)
+                .Skip((dto.Page - 1) * _PageSize)
+                .Take(_PageSize)
+                .OrderBy(x => x.DexNumber)
                 .ToList();
 
             return await Task.FromResult(specialStage);

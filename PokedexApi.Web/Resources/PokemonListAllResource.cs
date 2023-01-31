@@ -5,7 +5,6 @@ namespace PokedexApi.Web.Resources
     public class PokemonListAllResource
     {
         public int DexNumber { get; set; }
-        public string Category { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }

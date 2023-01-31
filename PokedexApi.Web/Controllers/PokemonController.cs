@@ -28,7 +28,6 @@ namespace PokedexApi.Web.Controllers
                 var result = await _repository.AddAsync(new PokemonAddDTO
                 {
                     DexNumber = payload.DexNumber,
-                    Category = payload.Category,
                     Name = payload.Name,
                     Image = payload.Image,
                     Description = payload.Description,
@@ -70,7 +69,6 @@ namespace PokedexApi.Web.Controllers
                 var result = await _repository.AllAsync(new PokemonListAllDTO
                 {
                     Page = payload.Page,
-                    PageSize = payload.PageSize
                 });
 
                 return Ok(_mapper.Map<IEnumerable<PokemonListAllResource>>(result));
@@ -88,11 +86,9 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.GetWithParamsAsync(new PokemonGetWithParamsDTO
                 {
-                    Category = payload.Category,
                     Name = payload.Name,
                     Region = payload.Region,
                     Page = payload.Page,
-                    PageSize = payload.PageSize
                 });
 
                 return Ok(_mapper.Map<IEnumerable<PokemonGetWithParamsResource>>(result));

@@ -21,6 +21,7 @@ builder.Services.AddScoped<DataContext, DataContext>();
 builder.Services.AddScoped<IWeaknessRepository, WeaknessRepository>();
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<ISpecialStageRepository, SpecialStageRepository>();
+builder.Services.AddScoped<IEvolutionRepository, EvolutionRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
