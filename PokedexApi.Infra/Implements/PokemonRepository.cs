@@ -7,6 +7,7 @@ namespace PokedexApi.Infra.Implements
     public class PokemonRepository : IPokemonRepository
     {
         private readonly DataContext _context;
+        private static int _PageSize = 10;
 
         public PokemonRepository(DataContext context)
         {
@@ -17,11 +18,17 @@ namespace PokedexApi.Infra.Implements
         {
             var id = Guid.NewGuid();
 
+            Pokemon validation = _context.Pokemon.Where(x => x.DexNumber == dto.DexNumber).FirstOrDefault();
+
+            if(validation != null)
+            {
+                throw new Exception($"there is already a pokemon with the dex number: {dto.DexNumber}");
+            }
+
             var pokemon = new Pokemon()
             {
                 Id = id,
                 DexNumber = dto.DexNumber,
-                Category = dto.Category,
                 Name = dto.Name,
                 Image = dto.Image,
                 Description = dto.Description,
@@ -70,8 +77,9 @@ namespace PokedexApi.Infra.Implements
         public async Task<IEnumerable<Pokemon>> AllAsync(PokemonListAllDTO dto)
         {
             IEnumerable<Pokemon> pokemons = _context.Pokemon
-                .Skip((dto.Page - 1) * dto.PageSize)
-                .Take(dto.PageSize)
+                .Skip((dto.Page - 1) * _PageSize)
+                .Take(_PageSize)
+                .OrderBy(x => x.DexNumber)
                 .ToList();
 
             return await Task.FromResult(pokemons);
@@ -80,15 +88,14 @@ namespace PokedexApi.Infra.Implements
         public async Task<IEnumerable<Pokemon>> GetWithParamsAsync(PokemonGetWithParamsDTO dto)
         {
             IEnumerable<Pokemon> pokemons = _context.Pokemon
-                .Skip((dto.Page - 1) * dto.PageSize)
-                .Take(dto.PageSize)
+                .Skip((dto.Page - 1) * _PageSize)
+                .Take(_PageSize)
+                .OrderBy(x => x.DexNumber)
                 .ToList();
             
             pokemons = pokemons
-                .Where(x => dto.Category != null ? (x.Category.Contains(dto.Category)) : true)
                 .Where(x => dto.Name != null ? (x.Name.Contains(dto.Name)) : true)
-                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true)
-                .Where(x => dto.Category != null ? (x.Category.Contains(dto.Category)) : true);
+                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true);
 
             return await Task.FromResult(pokemons);
         }

@@ -2,7 +2,8 @@
 {
     public class EvolutionAddFormRequest
     {
-        public Guid? PreEvolution { get; set; }
-        public int PokemonStage { get; set; }
+        public Guid PokemonId { get; set; }
+        public Guid PreEvolution { get; set; }
+        public Guid EvolutionForm { get; set; }
     }
 }

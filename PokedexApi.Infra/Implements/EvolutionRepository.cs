@@ -17,16 +17,12 @@ namespace PokedexApi.Infra.Implements
         {
             var id = Guid.NewGuid();
 
-            if (dto.PreEvolution != null)
-            {
-                throw new InvalidDataException();
-            }
-
             var evolution = new Evolution()
             {
                 Id = id,
+                PokemonId = dto.PokemonId,
                 PreEvolution = dto.PreEvolution,
-                PokemonStage = dto.PokemonStage
+                EvolutionForm = dto.EvolutionForm
             };
 
             _context.Evolution.Add(evolution);
@@ -35,26 +31,26 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(evolution);
         }
 
-        public async Task<Evolution> GetByParamsAsync(EvolutionGetByParamsDTO dto)
-        {
-            if (dto.PreEvolution != Guid.Empty && dto.PokemonStage != 0)
-            {
-                throw new Exception("Route not able to search for both 'PreEvolution' and 'Pokemon Stage' at the same time. Please use only one of the filters.");
-            }
+        // public async Task<Evolution> GetByParamsAsync(EvolutionGetByParamsDTO dto)
+        // {
+        //     if (dto.PreEvolution != Guid.Empty && dto.PokemonStage != 0)
+        //     {
+        //         throw new Exception("Route not able to search for both 'PreEvolution' and 'Pokemon Stage' at the same time. Please use only one of the filters.");
+        //     }
             
-            if(dto.PokemonStage == 0)
-            {
-                Evolution evolution = _context.Evolution.Where(x => x.PreEvolution == dto.PreEvolution).FirstOrDefault();
+        //     if(dto.PokemonStage == 0)
+        //     {
+        //         Evolution evolution = _context.Evolution.Where(x => x.PreEvolution == dto.PreEvolution).FirstOrDefault();
 
-                return await Task.FromResult(evolution);
-            }
-            else
-            {
-                Evolution evolution = _context.Evolution.Where(x => x.PokemonStage == dto.PokemonStage).FirstOrDefault();
+        //         return await Task.FromResult(evolution);
+        //     }
+        //     else
+        //     {
+        //         Evolution evolution = _context.Evolution.Where(x => x.PokemonStage == dto.PokemonStage).FirstOrDefault();
 
-                return await Task.FromResult(evolution);
-            }
-        }
+        //         return await Task.FromResult(evolution);
+        //     }
+        // }
 
         public async Task<object> DeleteAsync(Guid id)
         {

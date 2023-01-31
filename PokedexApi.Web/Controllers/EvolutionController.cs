@@ -26,8 +26,9 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.AddAsync(new EvolutionAddDTO
                 {
+                    PokemonId = payload.PokemonId,
                     PreEvolution = payload.PreEvolution,
-                    PokemonStage = payload.PokemonStage
+                    EvolutionForm = payload.EvolutionForm
                 });
 
                 return Created("Evolution has been registered", result);
@@ -38,24 +39,24 @@ namespace PokedexApi.Web.Controllers
             }
         }
 
-        [HttpGet("options")]
-        public async Task<IActionResult> GetByParams([FromQuery] EvolutionAddFormRequest payload)
-        {
-            try
-            {
-                var result = await _repository.GetByParamsAsync(new EvolutionGetByParamsDTO
-                {
-                    PreEvolution = payload.PreEvolution,
-                    PokemonStage = payload.PokemonStage
-                });
+        // [HttpGet("options")]
+        // public async Task<IActionResult> GetByParams([FromQuery] EvolutionAddFormRequest payload)
+        // {
+        //     try
+        //     {
+        //         var result = await _repository.GetByParamsAsync(new EvolutionGetByParamsDTO
+        //         {
+        //             PreEvolution = payload.PreEvolution,
+        //             PokemonStage = payload.PokemonStage
+        //         });
 
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //         return Ok(result);
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return BadRequest(ex.Message);
+        //     }
+        // }
 
         [HttpDelete("{id}/remove")]
         public async Task<IActionResult> Remove([FromRoute] Guid id)

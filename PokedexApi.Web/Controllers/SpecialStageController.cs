@@ -28,14 +28,10 @@ namespace PokedexApi.Web.Controllers
                 {
                     PokemonId = payload.PokemonId,
                     DexNumber = payload.DexNumber,
-                    Category = payload.Category,
-                    Name = payload.Name,
                     Image = payload.Image,
                     Description = payload.Description,
                     Height = payload.Height,
                     Weight = payload.Weight,
-                    Gender = payload.Gender,
-                    Rarity = payload.Rarity,
                     Region = payload.Region
                 });
 
@@ -70,7 +66,6 @@ namespace PokedexApi.Web.Controllers
                 var result = await _repository.AllAsync(new SpecialStageListAllDTO
                 {
                     Page = payload.Page,
-                    PageSize = payload.PageSize
                 });
 
                 return Ok(result);
