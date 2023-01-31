@@ -1,5 +1,6 @@
 using AutoMapper;
 using PokedexApi.Domain.Entities;
+using PokedexApi.Domain.Responses;
 using PokedexApi.Web.Resources;
 
 namespace PokedexApi.Web.Mapper
@@ -10,6 +11,8 @@ namespace PokedexApi.Web.Mapper
         {
             CreateMap<Pokemon, PokemonListAllResource>(MemberList.Destination);
             CreateMap<Pokemon, PokemonGetWithParamsResource>(MemberList.Destination);
+            CreateMap<Pokemon, PokemonEvolutionResource>(MemberList.Destination);
+            CreateMap<EvolutionResponse, EvolutionResource>(MemberList.Destination);
         }
     }
 }

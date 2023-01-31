@@ -7,13 +7,11 @@ namespace PokedexApi.Domain.Entities
     public class Evolution
     {
         [Key]
-        public Guid Id { get; set; }
-
         [ForeignKey("Pokemon")]
         public Guid PokemonId { get; set; }
         public Pokemon Pokemon { get; set; }
-
-        public Guid PreEvolution { get; set; }
-        public Guid EvolutionForm { get; set; }
+        
+        public Guid? PreEvolution { get; set; }
+        public Guid? EvolutionForm { get; set; }
     }
 }

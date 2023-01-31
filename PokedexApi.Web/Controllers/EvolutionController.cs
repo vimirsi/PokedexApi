@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Interfaces;
+using PokedexApi.Domain.Responses;
 using PokedexApi.Web.FormRequest;
+using PokedexApi.Web.Resources;
 
 namespace PokedexApi.Web.Controllers
 {
@@ -39,31 +41,45 @@ namespace PokedexApi.Web.Controllers
             }
         }
 
-        // [HttpGet("options")]
-        // public async Task<IActionResult> GetByParams([FromQuery] EvolutionAddFormRequest payload)
-        // {
-        //     try
-        //     {
-        //         var result = await _repository.GetByParamsAsync(new EvolutionGetByParamsDTO
-        //         {
-        //             PreEvolution = payload.PreEvolution,
-        //             PokemonStage = payload.PokemonStage
-        //         });
-
-        //         return Ok(result);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return BadRequest(ex.Message);
-        //     }
-        // }
-
-        [HttpDelete("{id}/remove")]
-        public async Task<IActionResult> Remove([FromRoute] Guid id)
+        [HttpGet("{pokemonId}")]
+        public async Task<IActionResult> GetByPokemonId([FromRoute] Guid pokemonId)
         {
             try
             {
-                await _repository.DeleteAsync(id);
+                var result = await _repository.GetByIdAsync(new EvolutionGetByIdDTO
+                {
+                    PokemonId = pokemonId
+                });
+
+                return Ok(_mapper.Map<EvolutionResource>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListAll()
+        {
+            try
+            {
+                var result = await _repository.ListAll();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{pokemonId}/remove")]
+        public async Task<IActionResult> RemoveByPokemonId([FromRoute] Guid pokemonId)
+        {
+            try
+            {
+                await _repository.DeleteAsync(pokemonId);
 
                 return NoContent();
             }
