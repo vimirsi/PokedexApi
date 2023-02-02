@@ -8,6 +8,10 @@
 
 - https://www.canva.com/design/DAFZRp-p8eg/eZqrjDMPyNtwggAZlFoQTA/view?utm_content=DAFZRp-p8eg&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
 
+## Documentação
+
+- https://docs.google.com/document/d/166f4apjQerg56iSA5b9tBFOJmkK8XuGLAhOwUeyTWiw/edit?usp=sharing
+
 ## Solution Structure
 
 - PokedexApi.Core - Entities, Exceptions, etc.
