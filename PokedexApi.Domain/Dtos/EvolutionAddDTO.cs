@@ -2,8 +2,8 @@
 {
     public class EvolutionAddDTO
     {
-        public Guid PokemonId { get; set; }
-        public Guid? PreEvolution { get; set; }
-        public Guid? EvolutionForm { get; set; }
+        public int PokemonId { get; set; }
+        public int? PreEvolution { get; set; }
+        public int? EvolutionForm { get; set; }
     }
 }

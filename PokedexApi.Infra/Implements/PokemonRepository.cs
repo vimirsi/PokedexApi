@@ -7,18 +7,20 @@ namespace PokedexApi.Infra.Implements
     public class PokemonRepository : IPokemonRepository
     {
         private readonly DataContext _context;
-        private static int _PageSize = 10;
+        private static int _PageSize = 3;
 
         public PokemonRepository(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<Pokemon> AddAsync(PokemonAddDTO dto)
+        public async Task<object> AddAsync(PokemonAddDTO dto)
         {
             var id = Guid.NewGuid();
 
-            Pokemon validation = _context.Pokemon.Where(x => x.DexNumber == dto.DexNumber).FirstOrDefault();
+            Pokemon validation = _context.Pokemon
+                .Where(x => x.DexNumber == dto.DexNumber)
+                .FirstOrDefault();
 
             if(validation != null)
             {
@@ -29,6 +31,7 @@ namespace PokedexApi.Infra.Implements
             {
                 Id = id,
                 DexNumber = dto.DexNumber,
+                RelationshipPage = dto.RelationshipPage,
                 Name = dto.Name,
                 Image = dto.Image,
                 Description = dto.Description,
@@ -42,7 +45,7 @@ namespace PokedexApi.Infra.Implements
             _context.Add(pokemon);
             _context.SaveChanges();
 
-            return await Task.FromResult(pokemon);
+            return await Task.FromResult(new object{});
         }
 
         public async Task<object> DeleteAsync(Guid id)
@@ -60,10 +63,21 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(new object(){});
         }
 
-        public async Task<Pokemon> GetByIdAsync(int dexNumber)
+        public async Task<Pokemon> GetByDexNumberAsync(int dexNumber)
         {
             Pokemon pokemon = _context.Pokemon
                 .Where(x => x.DexNumber == dexNumber)
+                .Select(x => new Pokemon{
+                    DexNumber = x.DexNumber,
+                    Name = x.Name,
+                    Image = x.Image,
+                    Description = x.Description,
+                    Height = x.Height,
+                    Weight = x.Weight,
+                    Gender = x.Gender,
+                    Rarity = x.Rarity,
+                    Region = x.Region,
+                })
                 .FirstOrDefault();
 
             if(pokemon is null)
@@ -74,28 +88,60 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(pokemon);
         }
 
-        public async Task<IEnumerable<Pokemon>> AllAsync(PokemonListAllDTO dto)
+        public async Task<IEnumerable<Pokemon>> ListAllAsync(int page)
         {
+            if (page == 0)
+            {
+                page = 1;
+            }
+
             IEnumerable<Pokemon> pokemons = _context.Pokemon
-                .Skip((dto.Page - 1) * _PageSize)
-                .Take(_PageSize)
+                .Select(x => new Pokemon
+                {
+                    DexNumber = x.DexNumber,
+                    RelationshipPage = x.RelationshipPage,
+                    Name = x.Name,
+                    Image = x.Image,
+                    Description = x.Description,
+                    Height = x.Height,
+                    Weight = x.Weight,
+                    Gender = x.Gender,
+                    Rarity = x.Rarity,
+                    Region = x.Region,
+                })
+                .Where(x => x.RelationshipPage == page)
                 .OrderBy(x => x.DexNumber)
                 .ToList();
 
             return await Task.FromResult(pokemons);
         }
 
-        public async Task<IEnumerable<Pokemon>> GetWithParamsAsync(PokemonGetWithParamsDTO dto)
+        public async Task<IEnumerable<Pokemon>> ListWithParamsAsync(PokemonGetWithParamsDTO dto)
         {
+            if (dto.Page == 0)
+            {
+                dto.Page = 1;
+            }
+
             IEnumerable<Pokemon> pokemons = _context.Pokemon
+                .Select(x => new Pokemon
+                {
+                    DexNumber = x.DexNumber,
+                    Name = x.Name,
+                    Image = x.Image,
+                    Description = x.Description,
+                    Height = x.Height,
+                    Weight = x.Weight,
+                    Gender = x.Gender,
+                    Rarity = x.Rarity,
+                    Region = x.Region,
+                })
+                .Where(x => dto.Name != null ? (x.Name.Contains(dto.Name)) : true)
+                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true)
+                .OrderBy(x => x.DexNumber)
                 .Skip((dto.Page - 1) * _PageSize)
                 .Take(_PageSize)
-                .OrderBy(x => x.DexNumber)
                 .ToList();
-            
-            pokemons = pokemons
-                .Where(x => dto.Name != null ? (x.Name.Contains(dto.Name)) : true)
-                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true);
 
             return await Task.FromResult(pokemons);
         }

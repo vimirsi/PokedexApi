@@ -8,7 +8,6 @@ namespace PokedexApi.Domain.Interfaces
     {
         Task<Evolution> AddAsync(EvolutionAddDTO dto);
         Task<EvolutionResponse> GetByIdAsync(EvolutionGetByIdDTO dto);
-        Task<IEnumerable<Evolution>> ListAll();
         Task<object> DeleteAsync(Guid id);
     }
 }

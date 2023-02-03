@@ -9,8 +9,7 @@ namespace PokedexApi.Web.Mapper
     {
         public DomainProfile()
         {
-            CreateMap<Pokemon, PokemonListAllResource>(MemberList.Destination);
-            CreateMap<Pokemon, PokemonGetWithParamsResource>(MemberList.Destination);
+            CreateMap<Pokemon, PokemonResource>(MemberList.Destination);
             CreateMap<Pokemon, PokemonEvolutionResource>(MemberList.Destination);
             CreateMap<EvolutionResponse, EvolutionResource>(MemberList.Destination);
         }

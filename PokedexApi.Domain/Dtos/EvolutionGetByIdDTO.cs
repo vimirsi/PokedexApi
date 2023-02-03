@@ -2,6 +2,6 @@
 {
     public class EvolutionGetByIdDTO
     {
-        public Guid PokemonId { get; set;}
+        public int PokemonId { get; set;}
     }
 }

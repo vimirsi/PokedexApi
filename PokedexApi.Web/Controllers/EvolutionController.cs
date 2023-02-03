@@ -42,7 +42,7 @@ namespace PokedexApi.Web.Controllers
         }
 
         [HttpGet("{pokemonId}")]
-        public async Task<IActionResult> GetByPokemonId([FromRoute] Guid pokemonId)
+        public async Task<IActionResult> GetByPokemonId([FromRoute] int pokemonId)
         {
             try
             {
@@ -52,21 +52,6 @@ namespace PokedexApi.Web.Controllers
                 });
 
                 return Ok(_mapper.Map<EvolutionResource>(result));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ListAll()
-        {
-            try
-            {
-                var result = await _repository.ListAll();
-
-                return Ok(result);
             }
             catch (Exception ex)
             {

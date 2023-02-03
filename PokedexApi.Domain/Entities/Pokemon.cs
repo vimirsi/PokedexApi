@@ -14,6 +14,10 @@ namespace PokedexApi.Domain.Entities
         public int DexNumber { get; set; }
 
         [Required]
+
+        public int RelationshipPage { get; set; }
+
+        [Required]
         [StringLength(50, ErrorMessage = "The length of the field must be up to 50 characters long")]
         public string Name { get; set; }
 

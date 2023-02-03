@@ -4,6 +4,6 @@ namespace PokedexApi.Domain.Dtos
     {
         public string Name { get; set; }
         public string Region { get; set; }
-        public int Page { get; set; } = 1;
+        public int Page { get; set; }
     }
 }

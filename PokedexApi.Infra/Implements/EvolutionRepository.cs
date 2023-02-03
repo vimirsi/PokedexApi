@@ -17,11 +17,26 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<Evolution> AddAsync(EvolutionAddDTO dto)
         {
+            Pokemon pokemon = _context.Pokemon
+                .Where(x => x.DexNumber == dto.PokemonId)
+                .Select(x => new Pokemon{Id = x.Id})
+                .FirstOrDefault();
+
+            Pokemon preEvolution = _context.Pokemon
+                .Where(x => x.DexNumber == dto.PreEvolution)
+                .Select(x => new Pokemon{Id = x.Id})
+                .FirstOrDefault();
+                
+            Pokemon evolutionForm = _context.Pokemon
+                .Where(x => x.DexNumber == dto.EvolutionForm)
+                .Select(x => new Pokemon{Id = x.Id})
+                .FirstOrDefault();
+
             var evolution = new Evolution()
             {
-                PokemonId = dto.PokemonId,
-                PreEvolution = dto.PreEvolution,
-                EvolutionForm = dto.EvolutionForm
+                PokemonId = pokemon.Id,
+                PreEvolution = preEvolution.Id,
+                EvolutionForm = evolutionForm.Id
             };
 
             _context.Evolution.Add(evolution);
@@ -32,9 +47,14 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<EvolutionResponse> GetByIdAsync(EvolutionGetByIdDTO dto)
         {
+            Pokemon pokemon = _context.Pokemon
+                .Select(x => new Pokemon{Id = x.Id, DexNumber = x.DexNumber})
+                .Where(x => x.DexNumber == dto.PokemonId)
+                .FirstOrDefault();
+
             Evolution evolution = _context.Evolution
                 .Include(x => x.Pokemon)
-                .Where(x => x.PokemonId == dto.PokemonId)
+                .Where(x => x.PokemonId == pokemon.Id)
                 .Select(x => new Evolution
                 {
                     Pokemon = new Pokemon
@@ -114,13 +134,6 @@ namespace PokedexApi.Infra.Implements
             _context.SaveChanges();
 
             return await Task.FromResult(new object(){ });
-        }
-
-        public Task<IEnumerable<Evolution>> ListAll()
-        {
-            IEnumerable<Evolution> evolutions  = _context.Evolution.ToList();
-
-            return Task.FromResult(evolutions);
         }
     }
 }
