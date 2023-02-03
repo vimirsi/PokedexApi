@@ -5,6 +5,7 @@ namespace PokedexApi.Web.FormRequest
     public class PokemonCreateFormRequest
     {
         public int DexNumber { get; set; }
+        public int RelationshipPage { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }

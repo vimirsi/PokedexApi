@@ -20,6 +20,56 @@ namespace PokedexApi.Web.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("index")]
+        public async Task<IActionResult> index ([FromQuery] PokemonListAllFormRequest payload)
+        {
+            try
+            {
+                var result = await _repository.ListAllAsync(payload.Page);
+
+                return Ok(_mapper.Map<IEnumerable<PokemonResource>>(result));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{dexNumber}")]
+        public async Task<IActionResult> GetByDexNumber ([FromRoute] int dexNumber)
+        {
+            try
+            {
+                var result = await _repository.GetByDexNumberAsync(dexNumber);
+
+                return Ok(_mapper.Map<PokemonResource>(result));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("options")]
+        public async Task<IActionResult> ListWithParams ([FromQuery] PokemonGetWithParamsFormRequest payload)
+        {
+            try
+            {
+                var result = await _repository.ListWithParamsAsync(new PokemonGetWithParamsDTO
+                {
+                    Name = payload.Name,
+                    Region = payload.Region,
+                    Page = payload.Page,
+                });
+
+                return Ok(_mapper.Map<IEnumerable<PokemonResource>>(result));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> Add ([FromBody] PokemonCreateFormRequest payload)
         {
@@ -28,6 +78,7 @@ namespace PokedexApi.Web.Controllers
                 var result = await _repository.AddAsync(new PokemonAddDTO
                 {
                     DexNumber = payload.DexNumber,
+                    RelationshipPage = payload.RelationshipPage,
                     Name = payload.Name,
                     Image = payload.Image,
                     Description = payload.Description,
@@ -41,59 +92,6 @@ namespace PokedexApi.Web.Controllers
                 return Created("Pokemon has been registered", result);
             }
             catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById ([FromRoute] int id)
-        {
-            try
-            {
-                var result = await _repository.GetByIdAsync(id);
-
-                return Ok(result);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("all")]
-        public async Task<IActionResult> All ([FromQuery] PokemonListAllFormRequest payload)
-        {
-            try
-            {
-                var result = await _repository.AllAsync(new PokemonListAllDTO
-                {
-                    Page = payload.Page,
-                });
-
-                return Ok(_mapper.Map<IEnumerable<PokemonListAllResource>>(result));
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("options")]
-        public async Task<IActionResult> GetWithParams ([FromQuery] PokemonGetWithParamsFormRequest payload)
-        {
-            try
-            {
-                var result = await _repository.GetWithParamsAsync(new PokemonGetWithParamsDTO
-                {
-                    Name = payload.Name,
-                    Region = payload.Region,
-                    Page = payload.Page,
-                });
-
-                return Ok(_mapper.Map<IEnumerable<PokemonGetWithParamsResource>>(result));
-            }
-            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

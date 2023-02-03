@@ -2,7 +2,7 @@ using PokedexApi.Core.Enums;
 
 namespace PokedexApi.Web.Resources
 {
-    public class PokemonListAllResource
+    public class PokemonResource
     {
         public int DexNumber { get; set; }
         public string Name { get; set; }
