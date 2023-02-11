@@ -1,0 +1,9 @@
+@model IEnumerable<PokemonModel>
+
+@if(Model != null)
+{
+    @foreach (var pokemon in Model)
+    {
+        <h1>@pokemon.Name</h1>
+    }
+}
