@@ -1,0 +1,38 @@
+@model IEnumerable<PokemonModel>
+
+@{
+var page = new Dictionary<string, string>
+            {
+                { "page", "2" },
+            };
+}
+
+@{
+    ViewData["Title"] = "Pokemons";
+}
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+<link rel="stylesheet" href="~/css/PokemonIndex.css" asp-append-version="true" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300i,400" rel="stylesheet">
+
+<body class="bg-img">
+@if(Model != null)
+{
+    <div class="container">
+        @foreach (var pokemon in Model)
+        {
+            <div class="card">
+                <h3 class="title">@pokemon.Name</h3>
+                <div class="description">
+                    <p>@pokemon.Description</p>
+                </div>
+                <div class="circle">
+                    <img src="@pokemon.Image" alt="Pokemon image">
+                </div>
+            </div>
+        }
+
+        <a class="navbar-brand" asp-controller="Pokemon" asp-action="Index" asp-all-route-data="page">próximo</a>
+    </div>
+}
+</body>

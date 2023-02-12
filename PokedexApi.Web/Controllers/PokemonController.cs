@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Interfaces;
 using PokedexApi.Web.FormRequest;
-using PokedexApi.Web.Resources;
+using PokedexApi.Web.Models;
 
 namespace PokedexApi.Web.Controllers
 {
     [ApiController]
     [Route("pokemon")]
-    public class PokemonController : ControllerBase
+    public class PokemonController : Controller
     {
         private readonly IPokemonRepository _repository;
         private readonly IMapper _mapper;
@@ -21,13 +21,13 @@ namespace PokedexApi.Web.Controllers
         }
 
         [HttpGet("index")]
-        public async Task<IActionResult> index ([FromQuery] PokemonListAllFormRequest payload)
+        public async Task<IActionResult> Index ([FromQuery] PokemonListAllFormRequest payload)
         {
             try
             {
                 var result = await _repository.ListAllAsync(payload.Page);
-
-                return Ok(_mapper.Map<IEnumerable<PokemonResource>>(result));
+                
+                return View(_mapper.Map<IEnumerable<PokemonModel>>(result));
             }
             catch(Exception ex)
             {
@@ -42,7 +42,7 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.GetByDexNumberAsync(dexNumber);
 
-                return Ok(_mapper.Map<PokemonResource>(result));
+                 return View(_mapper.Map<PokemonModel>(result));
             }
             catch(Exception ex)
             {
@@ -62,7 +62,7 @@ namespace PokedexApi.Web.Controllers
                     Page = payload.Page,
                 });
 
-                return Ok(_mapper.Map<IEnumerable<PokemonResource>>(result));
+                return View(_mapper.Map<IEnumerable<PokemonModel>>(result));
             }
             catch(Exception ex)
             {
