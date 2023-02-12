@@ -1,0 +1,87 @@
+.bg-img {
+    background: linear-gradient(180deg, rgba(56,11,129,1) 0%, rgba(106,66,124,1) 4%, rgba(98,0,255,1) 100%);
+    font-family: 'Open Sans', sans-serif;
+}
+.container {
+    position: absolute;
+    height: 300px;
+    width: 600px;
+    top: 60px;
+    left: calc(50% - 300px);
+    display: flex;
+    margin-top: 5vw;
+}
+
+.card {
+    display: flex;
+    height: 280px;
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    /*   margin-left: -50px; */
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 0px;
+}
+
+.card:not(:first-child) {
+    margin-left: -50px;
+}
+
+.card:hover {
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
+}
+
+.card:hover ~ .card {
+    position: relative;
+    left: 50px;
+    transition: 0.4s ease-out;
+}
+
+.title {
+    color: black;
+    font-weight: 300;
+    position: absolute;
+    left: 20px;
+    top: 15px;
+}
+
+.description {
+    color: lawngreen;
+    font-weight: 100;
+    position: absolute;
+    left: 20px;
+    top: 70px;
+}
+
+
+.bar {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    height: 5px;
+    width: 150px;
+}
+
+.card:hover .filledbar {
+    width: 120px;
+    transition: 0.4s ease-out;
+}
+
+.circle {
+    position: absolute;
+    top: 150px;
+    left: calc(50% - 60px);
+}
+
+img {
+    fill: #17141d;
+    width: 200px;
+}
+
+.card:hover .stroke {
+    stroke-dashoffset: 100;
+    transition: 0.6s ease-out;
+}
