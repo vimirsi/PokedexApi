@@ -42,7 +42,7 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.GetByDexNumberAsync(dexNumber);
 
-                 return View(_mapper.Map<PokemonModel>(result));
+                 return Ok(_mapper.Map<PokemonModel>(result));
             }
             catch(Exception ex)
             {
@@ -97,12 +97,12 @@ namespace PokedexApi.Web.Controllers
             }
         }
 
-        [HttpDelete("{id}/remove")]
-        public async Task<IActionResult> Remove ([FromRoute] Guid id)
+        [HttpDelete("{dexNumber}/remove")]
+        public async Task<IActionResult> Remove ([FromRoute] int dexNumber)
         {
             try
             {
-                await _repository.DeleteAsync(id);
+                await _repository.DeleteAsync(dexNumber);
 
                 return NoContent();
             }

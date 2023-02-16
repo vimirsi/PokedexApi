@@ -17,26 +17,11 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<Evolution> AddAsync(EvolutionAddDTO dto)
         {
-            Pokemon pokemon = _context.Pokemon
-                .Where(x => x.DexNumber == dto.PokemonId)
-                .Select(x => new Pokemon{Id = x.Id})
-                .FirstOrDefault();
-
-            Pokemon preEvolution = _context.Pokemon
-                .Where(x => x.DexNumber == dto.PreEvolution)
-                .Select(x => new Pokemon{Id = x.Id})
-                .FirstOrDefault();
-                
-            Pokemon evolutionForm = _context.Pokemon
-                .Where(x => x.DexNumber == dto.EvolutionForm)
-                .Select(x => new Pokemon{Id = x.Id})
-                .FirstOrDefault();
-
             var evolution = new Evolution()
             {
-                PokemonId = pokemon.Id,
-                PreEvolution = preEvolution.Id,
-                EvolutionForm = evolutionForm.Id
+                PokemonId = dto.PokemonId,
+                PreEvolution = dto.PreEvolution,
+                EvolutionForm = dto.EvolutionForm
             };
 
             _context.Evolution.Add(evolution);
@@ -45,89 +30,41 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(evolution);
         }
 
-        public async Task<EvolutionResponse> GetByIdAsync(EvolutionGetByIdDTO dto)
+        public async Task<EvolutionResponse> GetByIdAsync(int dexNumber)
         {
-            Pokemon pokemon = _context.Pokemon
-                .Select(x => new Pokemon{Id = x.Id, DexNumber = x.DexNumber})
-                .Where(x => x.DexNumber == dto.PokemonId)
-                .FirstOrDefault();
-
-            Evolution evolution = _context.Evolution
-                .Include(x => x.Pokemon)
-                .Where(x => x.PokemonId == pokemon.Id)
-                .Select(x => new Evolution
-                {
-                    Pokemon = new Pokemon
-                    {
-                        DexNumber = x.Pokemon.DexNumber,
-                        Name = x.Pokemon.Name,
-                        Image = x.Pokemon.Image,
-                        Description =x.Pokemon.Description,
-                        Height = x.Pokemon.Height,
-                        Weight = x.Pokemon.Weight,
-                        Gender = x.Pokemon.Gender,
-                        Rarity = x.Pokemon.Rarity,
-                        Region = x.Pokemon.Region
-                    },
-                    PreEvolution = x.PreEvolution,
-                    EvolutionForm = x.EvolutionForm,
-                })
-                .FirstOrDefault();
+            Evolution evolution = _context.Evolution.Find(dexNumber);
 
             if(evolution is null)
             {
-                throw new Exception($"Not Found evolution with pokemon id: {dto.PokemonId}");
+                throw new Exception($"Not found evolution with id {dexNumber}");
             }
 
             Pokemon preEvolution = _context.Pokemon
-                .Where(x => x.Id == evolution.PreEvolution)
-                .Select(x => new Pokemon{
-                    Id = x.Id,
-                    DexNumber = x.DexNumber,
-                    Name = x.Name,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Height = x.Height,
-                    Weight = x.Weight,
-                    Gender = x.Gender,
-                    Rarity = x.Rarity,
-                    Region = x.Region
-                })
-                .FirstOrDefault();
-                
+                .Find(evolution.PreEvolution);
+
+            Pokemon actualStage = _context.Pokemon
+                .Find(dexNumber);
+
             Pokemon evolutionForm = _context.Pokemon
-                .Where(x => x.Id == evolution.EvolutionForm)
-                .Select(x => new Pokemon{
-                    Id = x.Id,
-                    DexNumber = x.DexNumber,
-                    Name = x.Name,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Height = x.Height,
-                    Weight = x.Weight,
-                    Gender = x.Gender,
-                    Rarity = x.Rarity,
-                    Region = x.Region
-                })
-                .FirstOrDefault();
+                .Find(evolution.EvolutionForm);
 
             var response = new EvolutionResponse()
             {
                 PreEvolution = preEvolution,
-                ActualStage = evolution.Pokemon,
+                ActualStage = actualStage,
                 EvolutionForm = evolutionForm
             };
 
             return await Task.FromResult(response);
         }
 
-        public async Task<object> DeleteAsync(Guid pokemonId)
+        public async Task<object> DeleteAsync(int dexNumber)
         {
-            Evolution evolution = _context.Evolution.Where(x => x.PokemonId == pokemonId).FirstOrDefault();
+            Evolution evolution = _context.Evolution.Find(dexNumber);
 
             if(evolution is null)
             {
-                throw new Exception($"Not found evolution with id {pokemonId}");
+                throw new Exception($"Not found evolution with id {dexNumber}");
             }
 
             _context.Evolution.Remove(evolution);

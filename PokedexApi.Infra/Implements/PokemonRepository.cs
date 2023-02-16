@@ -16,8 +16,6 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<object> AddAsync(PokemonAddDTO dto)
         {
-            var id = Guid.NewGuid();
-
             Pokemon validation = _context.Pokemon
                 .Where(x => x.DexNumber == dto.DexNumber)
                 .FirstOrDefault();
@@ -29,7 +27,6 @@ namespace PokedexApi.Infra.Implements
 
             var pokemon = new Pokemon()
             {
-                Id = id,
                 DexNumber = dto.DexNumber,
                 RelationshipPage = dto.RelationshipPage,
                 Name = dto.Name,
@@ -48,13 +45,13 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(new object{});
         }
 
-        public async Task<object> DeleteAsync(Guid id)
+        public async Task<object> DeleteAsync(int dexNumber)
         {
-            Pokemon pokemon = await _context.Pokemon.FindAsync(id);
+            Pokemon pokemon = await _context.Pokemon.FindAsync(dexNumber);
 
             if(pokemon is null)
             {
-                throw new Exception($"Not found pokemon with id {id}");
+                throw new Exception($"Not found pokemon with id {dexNumber}");
             }
 
             _context.Pokemon.Remove(pokemon);

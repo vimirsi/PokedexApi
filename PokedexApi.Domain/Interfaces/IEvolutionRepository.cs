@@ -7,7 +7,7 @@ namespace PokedexApi.Domain.Interfaces
     public interface IEvolutionRepository
     {
         Task<Evolution> AddAsync(EvolutionAddDTO dto);
-        Task<EvolutionResponse> GetByIdAsync(EvolutionGetByIdDTO dto);
-        Task<object> DeleteAsync(Guid id);
+        Task<EvolutionResponse> GetByIdAsync(int dexNumber);
+        Task<object> DeleteAsync(int dexNumber);
     }
 }

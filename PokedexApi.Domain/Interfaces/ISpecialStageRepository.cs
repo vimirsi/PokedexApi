@@ -6,8 +6,8 @@ namespace PokedexApi.Domain.Interfaces
     public interface ISpecialStageRepository
     {
         Task<SpecialStage> AddAsync (SpecialStageAddDTO dto);
-        Task<object> DeleteAsync (Guid id);
+        Task<object> DeleteAsync (int dexNumber);
         Task<SpecialStage> GetByIdAsync (int dexNumber);
-        Task<IEnumerable<SpecialStage>> AllAsync (SpecialStageListAllDTO dto);
+        Task<IEnumerable<SpecialStage>> AllAsync (int page);
     }
 }
