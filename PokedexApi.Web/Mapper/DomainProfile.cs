@@ -1,5 +1,6 @@
 using AutoMapper;
 using PokedexApi.Domain.Entities;
+using PokedexApi.Domain.Responses;
 using PokedexApi.Web.Models;
 
 namespace PokedexApi.Web.Mapper
@@ -9,6 +10,7 @@ namespace PokedexApi.Web.Mapper
         public DomainProfile()
         {
             CreateMap<Pokemon, PokemonModel>(MemberList.Destination);
+            CreateMap<EvolutionResponse, EvolutionModel>(MemberList.Destination);
         }
     }
 }
