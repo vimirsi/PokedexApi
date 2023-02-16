@@ -21,5 +21,15 @@ namespace Tests.Repository
             context = new DataContext(options);
             repository = new PokemonRepository(context);
         }
+
+        [TestMethod]
+        public void TestName()
+        {
+            // Given
+        
+            // When
+        
+            // Then
+        }
     }
 }
