@@ -57,12 +57,11 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.ListWithParamsAsync(new PokemonGetWithParamsDTO
                 {
-                    Name = payload.Name,
-                    Region = payload.Region,
-                    Page = payload.Page,
+                    Param = payload.Param,
+                    Page = payload.Page
                 });
 
-                return View(_mapper.Map<IEnumerable<PokemonModel>>(result));
+                return Ok(_mapper.Map<IEnumerable<PokemonModel>>(result));
             }
             catch(Exception ex)
             {
