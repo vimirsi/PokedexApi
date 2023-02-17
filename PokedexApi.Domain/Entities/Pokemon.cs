@@ -8,13 +8,9 @@ namespace PokedexApi.Domain.Entities
     public class Pokemon
     {
         [Key]
-        public Guid Id { get; set; }
-
-        [Required]
         public int DexNumber { get; set; }
 
         [Required]
-
         public int RelationshipPage { get; set; }
 
         [Required]

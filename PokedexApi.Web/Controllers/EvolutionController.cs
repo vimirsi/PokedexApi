@@ -1,75 +1,73 @@
-﻿// using AutoMapper;
-// using Microsoft.AspNetCore.Mvc;
-// using PokedexApi.Domain.Dtos;
-// using PokedexApi.Domain.Interfaces;
-// using PokedexApi.Web.FormRequest;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using PokedexApi.Domain.Dtos;
+using PokedexApi.Domain.Interfaces;
+using PokedexApi.Web.FormRequest;
+using PokedexApi.Web.Models;
 
-// namespace PokedexApi.Web.Controllers
-// {
-//     [ApiController]
-//     [Route("evolution")]
-//     public class EvolutionController : ControllerBase
-//     {
-//         private readonly IEvolutionRepository _repository;
-//         private readonly IMapper _mapper;
+namespace PokedexApi.Web.Controllers
+{
+    [ApiController]
+    [Route("evolution")]
+    public class EvolutionController : ControllerBase
+    {
+        private readonly IEvolutionRepository _repository;
+        private readonly IMapper _mapper;
 
-//         public EvolutionController(IEvolutionRepository repository, IMapper mapper)
-//         {
-//             _repository = repository;
-//             _mapper = mapper;
-//         }
+        public EvolutionController(IEvolutionRepository repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
 
-//         [HttpPost("add")]
-//         public async Task<IActionResult> AddAsync([FromBody] EvolutionAddFormRequest payload)
-//         {
-//             try
-//             {
-//                 var result = await _repository.AddAsync(new EvolutionAddDTO
-//                 {
-//                     PokemonId = payload.PokemonId,
-//                     PreEvolution = payload.PreEvolution,
-//                     EvolutionForm = payload.EvolutionForm
-//                 });
+        [HttpPost("add")]
+        public async Task<IActionResult> AddAsync([FromBody] EvolutionAddFormRequest payload)
+        {
+            try
+            {
+                var result = await _repository.AddAsync(new EvolutionAddDTO
+                {
+                    PokemonId = payload.PokemonId,
+                    PreEvolution = payload.PreEvolution,
+                    EvolutionForm = payload.EvolutionForm
+                });
 
-//                 return Created("Evolution has been registered", result);
-//             }
-//             catch (Exception ex)
-//             {
-//                 return BadRequest(ex.Message);
-//             }
-//         }
+                return Created("Evolution has been registered", result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-//         [HttpGet("{pokemonId}")]
-//         public async Task<IActionResult> GetByPokemonId([FromRoute] int pokemonId)
-//         {
-//             try
-//             {
-//                 var result = await _repository.GetByIdAsync(new EvolutionGetByIdDTO
-//                 {
-//                     PokemonId = pokemonId
-//                 });
+        [HttpGet("{dexNumber}")]
+        public async Task<IActionResult> GetByPokemonId([FromRoute] int dexNumber)
+        {
+            try
+            {
+                var result = await _repository.GetByIdAsync(dexNumber);
 
-//                 return Ok(_mapper.Map<EvolutionResource>(result));
-//             }
-//             catch (Exception ex)
-//             {
-//                 return BadRequest(ex.Message);
-//             }
-//         }
+                return Ok(_mapper.Map<EvolutionModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-//         [HttpDelete("{pokemonId}/remove")]
-//         public async Task<IActionResult> RemoveByPokemonId([FromRoute] Guid pokemonId)
-//         {
-//             try
-//             {
-//                 await _repository.DeleteAsync(pokemonId);
+        [HttpDelete("{dexNumber}/remove")]
+        public async Task<IActionResult> RemoveByPokemonId([FromRoute] int dexNumber)
+        {
+            try
+            {
+                await _repository.DeleteAsync(dexNumber);
 
-//                 return NoContent();
-//             }
-//             catch (Exception ex)
-//             {
-//                 return BadRequest(ex.Message);
-//             }
-//         }
-//     }
-// }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}

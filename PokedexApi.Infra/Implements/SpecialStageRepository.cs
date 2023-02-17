@@ -16,8 +16,6 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<SpecialStage> AddAsync(SpecialStageAddDTO dto)
         {
-            var id = Guid.NewGuid();
-
             Pokemon pokemon = _context.Pokemon.Find(dto.PokemonId);
 
             if(pokemon is null)
@@ -27,7 +25,6 @@ namespace PokedexApi.Infra.Implements
             
             var specialStage = new SpecialStage()
             {
-                Id = id,
                 PokemonId = dto.PokemonId,
                 DexNumber = dto.DexNumber,
                 Name = pokemon.Name,
@@ -46,13 +43,13 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(specialStage);
         }
 
-        public async Task<object> DeleteAsync(Guid id)
+        public async Task<object> DeleteAsync(int dexNumber)
         {
-            SpecialStage specialStage = await _context.SpecialStage.FindAsync(id);
+            SpecialStage specialStage = await _context.SpecialStage.FindAsync(dexNumber);
 
             if(specialStage is null)
             {
-                throw new Exception($"Not found pokemon with id {id}");
+                throw new Exception($"Not found pokemon with id {dexNumber}");
             }
 
             _context.SpecialStage.Remove(specialStage);
@@ -61,10 +58,10 @@ namespace PokedexApi.Infra.Implements
             return await Task.FromResult(new object(){});
         }
 
-        public async Task<IEnumerable<SpecialStage>> AllAsync(SpecialStageListAllDTO dto)
+        public async Task<IEnumerable<SpecialStage>> AllAsync(int page)
         {
             IEnumerable<SpecialStage> specialStage = _context.SpecialStage
-                .Skip((dto.Page - 1) * _PageSize)
+                .Skip((page-1) * _PageSize)
                 .Take(_PageSize)
                 .OrderBy(x => x.DexNumber)
                 .ToList();
@@ -74,10 +71,8 @@ namespace PokedexApi.Infra.Implements
 
         public async Task<SpecialStage> GetByIdAsync(int dexNumber)
         {
-            SpecialStage specialStage = _context.SpecialStage
-                .Where(x => x.DexNumber == dexNumber)
-                .FirstOrDefault();
-
+            SpecialStage specialStage = _context.SpecialStage.Find(dexNumber);
+            
             if(specialStage is null)
             {
                 throw new Exception($"Not found pokemon with id {dexNumber}");

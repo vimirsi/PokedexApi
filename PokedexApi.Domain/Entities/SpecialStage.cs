@@ -8,15 +8,12 @@ namespace PokedexApi.Domain.Entities
     public class SpecialStage
     {
         [Key]
-        public Guid Id { get; set; }
+        public int DexNumber { get; set; }
 
         [Required]
         [ForeignKey("Pokemon")]
-        public Guid PokemonId { get; set; }
+        public int PokemonId { get; set; }
         public Pokemon Pokemon { get; set; }
-
-        [Required]
-        public int DexNumber { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = "The length of the field must be up to 50 characters long")]
