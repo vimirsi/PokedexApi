@@ -133,11 +133,8 @@ namespace PokedexApi.Infra.Implements
                     Rarity = x.Rarity,
                     Region = x.Region,
                 })
-                .Where(x => dto.Name != null ? (x.Name.Contains(dto.Name)) : true)
-                .Where(x => dto.Region != null ? (x.Region.Contains(dto.Region)) : true)
+                .Where(x => x.Name.Contains(dto.Param) || x.Region.Contains(dto.Param))
                 .OrderBy(x => x.DexNumber)
-                .Skip((dto.Page - 1) * _PageSize)
-                .Take(_PageSize)
                 .ToList();
 
             return await Task.FromResult(pokemons);

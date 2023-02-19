@@ -9,7 +9,7 @@ public class PokemonModel
     public string Description { get; set; }
     public double Height { get; set; }
     public double Weight { get; set; }
-    public GenderEnum Gender { get; set; }
-    public RarityEnum Rarity { get; set; }
+    public string Gender { get; set; }
+    public string Rarity { get; set; }
     public string Region { get; set; }
 }
