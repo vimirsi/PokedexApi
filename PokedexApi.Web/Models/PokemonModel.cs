@@ -1,9 +1,9 @@
-using PokedexApi.Core.Enums;
 namespace PokedexApi.Web.Models;
 
 public class PokemonModel
 {
     public int DexNumber { get; set; }
+    public int RelationshipPage { get; set; }
     public string Name { get; set; }
     public string Image { get; set; }
     public string Description { get; set; }
