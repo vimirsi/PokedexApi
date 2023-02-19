@@ -1,9 +1,14 @@
 @model IEnumerable<PokemonModel>
 
 @{
-var page = new Dictionary<string, string>
+var PageNext = new Dictionary<string, string>
             {
-                { "page", "2" },
+                { "Page", (Model.ElementAt(1).RelationshipPage +1).ToString()}
+            };
+
+var PagePrevious = new Dictionary<string, string>
+            {
+                { "Page", (Model.ElementAt(1).RelationshipPage -1).ToString()}
             };
 }
 
@@ -19,10 +24,11 @@ var page = new Dictionary<string, string>
 @if(Model != null)
 {
     <div class="container">
+        <a asp-controller="Pokemon" asp-action="Index" asp-all-route-data="PagePrevious"><img class="arrow-left" src="~/single-arrow-right.png" ></img></a>
         @foreach (var pokemon in Model)
         {
             <div class="card">
-                <h3 class="title">@pokemon.Name</h3>
+                <h3 class="title">#@pokemon.DexNumber @pokemon.Name</h3>
                 <div class="description">
                     <p>@pokemon.Description</p>
                 </div>
@@ -31,8 +37,7 @@ var page = new Dictionary<string, string>
                 </div>
             </div>
         }
-
-        <a class="navbar-brand" asp-controller="Pokemon" asp-action="Index" asp-all-route-data="page">próximo</a>
+        <a asp-controller="Pokemon" asp-action="Index" asp-all-route-data="PageNext"><img class="arrow-right" src="~/single-arrow-right.png" ></img></a>
     </div>
 }
 </body>

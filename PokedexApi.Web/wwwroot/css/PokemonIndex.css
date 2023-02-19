@@ -1,73 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika:wght@300&display=swap');
+
 .bg-img {
     background: linear-gradient(180deg, rgba(56,11,129,1) 0%, rgba(106,66,124,1) 4%, rgba(98,0,255,1) 100%);
-    font-family: 'Open Sans', sans-serif;
+    height: 100vh;
 }
+
 .container {
-    position: absolute;
-    height: 300px;
-    width: 600px;
-    top: 60px;
-    left: calc(50% - 300px);
     display: flex;
-    margin-top: 5vw;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
 }
 
 .card {
     display: flex;
-    height: 280px;
-    width: 200px;
+    height: 300px;
+    width: 230px;
     background-color: white;
-    border-radius: 10px;
-    box-shadow: -1rem 0 3rem #000;
-    /*   margin-left: -50px; */
-    transition: 0.4s ease-out;
-    position: relative;
-    left: 0px;
-}
-
-.card:not(:first-child) {
-    margin-left: -50px;
-}
-
-.card:hover {
-    transform: translateY(-20px);
-    transition: 0.4s ease-out;
-}
-
-.card:hover ~ .card {
-    position: relative;
-    left: 50px;
-    transition: 0.4s ease-out;
+    border-radius: 15px;
 }
 
 .title {
-    color: black;
-    font-weight: 300;
+    color: orangered;
+    font-weight: 270;
     position: absolute;
-    left: 20px;
+    left: 10px;
     top: 15px;
+    font-family: 'Signika', sans-serif;
+    font-size: 28px;
 }
 
 .description {
-    color: lawngreen;
+    color: black;
     font-weight: 100;
     position: absolute;
     left: 20px;
     top: 70px;
-}
-
-
-.bar {
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    height: 5px;
-    width: 150px;
-}
-
-.card:hover .filledbar {
-    width: 120px;
-    transition: 0.4s ease-out;
+    font-family: 'Signika', sans-serif;
+    font-size: 16px;
 }
 
 .circle {
@@ -81,7 +52,13 @@ img {
     width: 200px;
 }
 
-.card:hover .stroke {
-    stroke-dashoffset: 100;
-    transition: 0.6s ease-out;
+.arrow-right{
+    width: 100px;
+    filter: invert(100%);
+}
+
+.arrow-left{
+    width: 100px;
+    filter: invert(100%);
+    transform: scaleX(-1);
 }
