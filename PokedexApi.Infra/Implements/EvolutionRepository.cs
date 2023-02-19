@@ -24,6 +24,15 @@ namespace PokedexApi.Infra.Implements
                 EvolutionForm = dto.EvolutionForm
             };
 
+            if(evolution.PreEvolution == null)
+            {
+                evolution.PreEvolution = 0;
+            }
+            if(evolution.EvolutionForm == null)
+            {
+                evolution.EvolutionForm = 0;
+            }
+
             _context.Evolution.Add(evolution);
             _context.SaveChanges();
 
