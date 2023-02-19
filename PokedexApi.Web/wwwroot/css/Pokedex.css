@@ -1,0 +1,23 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+.bg-img {
+    background: rgb(49,26,120);
+    background: linear-gradient(0deg, rgba(49,26,120,1) 0%, rgba(83,34,145,1) 26%, rgba(118,47,207,1) 72%);
+}
+
+.bg-img-2 {
+    background: rgb(129,0,166);
+    background: linear-gradient(0deg, rgba(129,0,166,1) 0%, rgba(132,45,157,1) 26%, rgba(203,108,230,1) 72%);
+}
+
+.title-pokedex {
+    padding-top: 13vw;
+    display: flex;
+    justify-content: center;
+}
+
+.title-text-format {
+    font-family: 'Fredoka One', cursive;
+    font-size: 8vw;
+    color: whitesmoke;
+}
