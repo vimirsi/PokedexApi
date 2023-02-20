@@ -20,10 +20,15 @@
     padding-top: 5vw;
     display: flex;
     justify-content: start;
+    flex-direction: column;
 }
 
 .logo-text-format{
     font-family: 'Fredoka One', cursive;
     font-size: 1.5vw;
     color: whitesmoke;
+}
+img{
+    width: 9vw;
+    height: 6vw;
 }

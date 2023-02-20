@@ -1,7 +1,7 @@
 INSERT INTO POKEDEXDATABASE.POKEMON (DexNumber, RelationshipPage, Name, Image, Description, Height, Weight, Gender, Rarity, Region)
-VALUES (1, 1, 'Bulbasaur', 'https://www.serebii.net/pokearth/sprites/frlg/1.png', 'There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.', 1, 1, '1', '2', 'Kanto'),
-       (2, 1, 'Ivysaur', 'https://www.serebii.net/pokearth/sprites/frlg/2.png', 'When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.', 1, 1, '1', '2', 'Kanto'),
-	   (3, 1, 'Venusaur', 'https://www.serebii.net/pokearth/sprites/frlg/3.png', 'Its plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.', 1, 1, '1', '2', 'Kanto'),
+VALUES (1, 1, 'Bulbasaur', 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png', 'There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.', 1, 1, '1', '2', 'Kanto'),
+       (2, 1, 'Ivysaur', 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png', 'When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.', 1, 1, '1', '2', 'Kanto'),
+	   (3, 1, 'Venusaur', 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png', 'Its plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.', 1, 1, '1', '2', 'Kanto'),
 	   (4, 2, 'Charmander', 'https://www.serebii.net/pokearth/sprites/frlg/4.png', 'It has a preference for hot things. When it rains, steam is said to spout from the tip of its tail.', 1, 1, '1', '2', 'Kanto'),
 	   (5, 2, 'Charmeleon', 'https://www.serebii.net/pokearth/sprites/frlg/5.png', 'It has a barbaric nature. In battle, it whips its fiery tail around and slashes away with sharp claws.', 1, 1, '1', '2', 'Kanto'),
 	   (6, 2, 'Charizard', 'https://www.serebii.net/pokearth/sprites/frlg/6.png', 'It spits fire that is hot enough to melt boulders. It may cause forest fires by blowing flames.', 1, 1, '1', '2', 'Kanto'),

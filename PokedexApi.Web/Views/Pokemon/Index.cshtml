@@ -28,7 +28,7 @@ var PagePrevious = new Dictionary<string, string>
         @foreach (var pokemon in Model)
         {
             <div class="card">
-                <h3 class="title">#@pokemon.DexNumber @pokemon.Name</h3>
+                <h3 class="title">@pokemon.DexNumber# - @pokemon.Name</h3>
                 <div class="description">
                     <p>@pokemon.Description</p>
                 </div>

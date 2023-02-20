@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Signika:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 .bg-img {
-    background: linear-gradient(180deg, rgba(56,11,129,1) 0%, rgba(106,66,124,1) 4%, rgba(98,0,255,1) 100%);
+    background: rgb(227,105,240);
+    background: linear-gradient(180deg, rgba(227,105,240,1) 0%, rgba(189,126,194,1) 100%);
     height: 100vh;
 }
 
@@ -19,16 +21,17 @@
     width: 230px;
     background-color: white;
     border-radius: 15px;
+    box-shadow: -1px 25px 40px -12px black;
 }
 
 .title {
     color: orangered;
     font-weight: 270;
     position: absolute;
-    left: 10px;
-    top: 15px;
-    font-family: 'Signika', sans-serif;
-    font-size: 28px;
+    left: 20px;
+    top: 25px;
+    font-family: 'Russo One', sans-serif;
+    font-size: 20px;
 }
 
 .description {
@@ -37,7 +40,7 @@
     position: absolute;
     left: 20px;
     top: 70px;
-    font-family: 'Signika', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
 }
 
