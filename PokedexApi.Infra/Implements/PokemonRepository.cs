@@ -71,9 +71,10 @@ namespace PokedexApi.Infra.Implements
                     Description = x.Description,
                     Height = x.Height,
                     Weight = x.Weight,
-                    Gender = x.Gender,
                     Rarity = x.Rarity,
                     Region = x.Region,
+                    Weakness = x.Weakness,
+                    
                 })
                 .FirstOrDefault();
 

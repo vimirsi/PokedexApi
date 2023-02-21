@@ -1,5 +1,3 @@
-using PokedexApi.Domain.Entities;
-
 namespace PokedexApi.Web.Models
 {
     public class EvolutionModel

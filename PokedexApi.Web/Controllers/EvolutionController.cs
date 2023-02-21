@@ -9,7 +9,7 @@ namespace PokedexApi.Web.Controllers
 {
     [ApiController]
     [Route("evolution")]
-    public class EvolutionController : ControllerBase
+    public class EvolutionController : Controller
     {
         private readonly IEvolutionRepository _repository;
         private readonly IMapper _mapper;
@@ -47,7 +47,7 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.GetByIdAsync(dexNumber);
 
-                return Ok(_mapper.Map<EvolutionModel>(result));
+                return View(_mapper.Map<EvolutionModel>(result));
             }
             catch (Exception ex)
             {
