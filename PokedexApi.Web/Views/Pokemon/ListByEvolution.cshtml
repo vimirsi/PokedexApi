@@ -24,7 +24,7 @@ var PagePrevious = new Dictionary<string, string>
 @if(Model != null)
 {
     <div class="container">
-        <a asp-controller="Pokemon" asp-action="Index" asp-all-route-data="PagePrevious"><img class="arrow-left" src="~/single-arrow-right.png" ></img></a>
+        <a asp-controller="Pokemon" asp-action="ListByEvolution" asp-all-route-data="PagePrevious"><img class="arrow-left" src="~/single-arrow-right.png" ></img></a>
         @foreach (var pokemon in Model)
         {
             <div class="card">
@@ -37,7 +37,7 @@ var PagePrevious = new Dictionary<string, string>
                 </div>
             </div>
         }
-        <a asp-controller="Pokemon" asp-action="Index" asp-all-route-data="PageNext"><img class="arrow-right" src="~/single-arrow-right.png" ></img></a>
+        <a asp-controller="Pokemon" asp-action="ListByEvolution" asp-all-route-data="PageNext"><img class="arrow-right" src="~/single-arrow-right.png" ></img></a>
     </div>
 }
 </body>
