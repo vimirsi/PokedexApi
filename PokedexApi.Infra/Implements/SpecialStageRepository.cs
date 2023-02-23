@@ -2,83 +2,44 @@ using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Entities;
 using PokedexApi.Domain.Interfaces;
 
-namespace PokedexApi.Infra.Implements
+namespace PokedexApi.Infra.Implements;
+
+public class SpecialStageRepository : ISpecialStageRepository
 {
-    public class SpecialStageRepository : ISpecialStageRepository
+    private readonly DataContext _context;
+
+    public SpecialStageRepository(DataContext context)
     {
-        private readonly DataContext _context;
-        private static int _PageSize = 10;
+        _context = context;
+    }
 
-        public SpecialStageRepository(DataContext context)
+    public async Task<object> AddAsync(SpecialStageAddDTO dto)
+    {
+        var specialStage = new SpecialStage()
         {
-            _context = context;
-        }
+            Id = Guid.NewGuid(),
+            PokemonId = dto.DexNumber,
+            Name = dto.Name,
+            Image = dto.Image,
+            Description = dto.Description,
+            Height = dto.Height,
+            Weight = dto.Weight,
+            Gender = ((int)dto.Gender),
+            Rarity = ((int)dto.Rarity),
+            Region = dto.Region,
+        };
 
-        public async Task<SpecialStage> AddAsync(SpecialStageAddDTO dto)
-        {
-            Pokemon pokemon = _context.Pokemon.Find(dto.PokemonId);
+        _context.Add(specialStage);
+        _context.SaveChanges();
 
-            if(pokemon is null)
-            {
-                throw new Exception($"Not found pokemon with Id: {dto.PokemonId}");
-            }
-            
-            var specialStage = new SpecialStage()
-            {
-                PokemonId = dto.PokemonId,
-                DexNumber = dto.DexNumber,
-                Name = pokemon.Name,
-                Image = dto.Image,
-                Description = dto.Description,
-                Height = dto.Height,
-                Weight = dto.Weight,
-                Gender = ((int)pokemon.Gender),
-                Rarity = ((int)pokemon.Rarity),
-                Region = dto.Region,
-            };
+        return await Task.FromResult(specialStage);
+    }
 
-            _context.Add(specialStage);
-            _context.SaveChanges();
+    public async Task<IEnumerable<SpecialStage>> ListByPokemonIdAsync(int dexNumber)
+    {
+        IEnumerable<SpecialStage> specialStages = _context.SpecialStage
+            .Where(s => s.PokemonId == dexNumber);
 
-            return await Task.FromResult(specialStage);
-        }
-
-        public async Task<object> DeleteAsync(int dexNumber)
-        {
-            SpecialStage specialStage = await _context.SpecialStage.FindAsync(dexNumber);
-
-            if(specialStage is null)
-            {
-                throw new Exception($"Not found pokemon with id {dexNumber}");
-            }
-
-            _context.SpecialStage.Remove(specialStage);
-            _context.SaveChanges();
-
-            return await Task.FromResult(new object(){});
-        }
-
-        public async Task<IEnumerable<SpecialStage>> AllAsync(int page)
-        {
-            IEnumerable<SpecialStage> specialStage = _context.SpecialStage
-                .Skip((page-1) * _PageSize)
-                .Take(_PageSize)
-                .OrderBy(x => x.DexNumber)
-                .ToList();
-
-            return await Task.FromResult(specialStage);
-        }
-
-        public async Task<SpecialStage> GetByIdAsync(int dexNumber)
-        {
-            SpecialStage specialStage = _context.SpecialStage.Find(dexNumber);
-            
-            if(specialStage is null)
-            {
-                throw new Exception($"Not found pokemon with id {dexNumber}");
-            }
-
-            return await Task.FromResult(specialStage);
-        }
+        return await Task.FromResult(specialStages);
     }
 }

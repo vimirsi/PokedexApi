@@ -24,13 +24,15 @@ namespace PokedexApi.Web.Controllers
             {
                 var result = await _repository.AddAsync(new SpecialStageAddDTO
                 {
-                    PokemonId = payload.PokemonId,
                     DexNumber = payload.DexNumber,
+                    Name = payload.Name,
                     Image = payload.Image,
                     Description = payload.Description,
                     Height = payload.Height,
                     Weight = payload.Weight,
-                    Region = payload.Region
+                    Region = payload.Region,
+                    Gender = payload.Gender,
+                    Rarity = payload.Rarity
                 });
 
                 return Created("Special Stage has been registered", result);
@@ -41,29 +43,14 @@ namespace PokedexApi.Web.Controllers
             }
         }
 
-        [HttpGet("all")]
-        public async Task<IActionResult> All ([FromQuery] PokemonListAllFormRequest payload)
+        [HttpGet("{dexNumber}")]
+        public async Task<IActionResult> ListByPokemonId ([FromRoute] int dexNumber)
         {
             try
             {
-                var result = await _repository.AllAsync(payload.Page);
+                var result = await _repository.ListByPokemonIdAsync(dexNumber);
 
-                return Ok(result);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete("{dexNumber}/remove")]
-        public async Task<IActionResult> Remove ([FromRoute] int dexNumber)
-        {
-            try
-            {
-                await _repository.DeleteAsync(dexNumber);
-
-                return NoContent();
+                return Created("Special Stage has been registered", result);
             }
             catch (Exception ex)
             {

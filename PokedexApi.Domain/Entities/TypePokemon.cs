@@ -15,7 +15,7 @@ namespace PokedexApi.Domain.Entities
         public Pokemon Pokemon { get; set; }
 
         [ForeignKey("SpecialStage")]
-        public int? SpecialStageId { get; set; }
+        public Guid? SpecialStageId { get; set; }
         public SpecialStage SpecialStage { get; set; }
 
         [Required]

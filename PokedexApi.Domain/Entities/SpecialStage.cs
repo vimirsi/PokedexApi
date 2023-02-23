@@ -8,7 +8,7 @@ namespace PokedexApi.Domain.Entities
     public class SpecialStage
     {
         [Key]
-        public int DexNumber { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [ForeignKey("Pokemon")]

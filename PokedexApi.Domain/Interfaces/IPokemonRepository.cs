@@ -8,7 +8,7 @@ namespace PokedexApi.Domain.Interfaces
         Task<object> AddAsync (PokemonAddDTO dto);
         Task<object> DeleteAsync (int id);
         Task<Pokemon> GetByDexNumberAsync (int dexNumber);
-        Task<IEnumerable<Pokemon>> ListAllAsync (int page);
-        Task<IEnumerable<Pokemon>> ListWithParamsAsync (PokemonGetWithParamsDTO dto);
+        Task<IEnumerable<Pokemon>> ListByEvolutionAsync (int page);
+        Task<IEnumerable<Pokemon>> ListWithParamsAsync (int page, string param);
     }
 }

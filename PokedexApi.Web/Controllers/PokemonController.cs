@@ -20,12 +20,12 @@ namespace PokedexApi.Web.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("index")]
-        public async Task<IActionResult> Index ([FromQuery] PokemonListAllFormRequest payload)
+        [HttpGet("evolution")]
+        public async Task<IActionResult> ListByEvolution ([FromQuery] PokemonListAllFormRequest payload)
         {
             try
             {
-                var result = await _repository.ListAllAsync(payload.Page);
+                var result = await _repository.ListByEvolutionAsync(payload.Page);
                 
                 return View(_mapper.Map<IEnumerable<PokemonModel>>(result));
             }
@@ -55,11 +55,7 @@ namespace PokedexApi.Web.Controllers
         {
             try
             {
-                var result = await _repository.ListWithParamsAsync(new PokemonGetWithParamsDTO
-                {
-                    Param = payload.Param,
-                    Page = payload.Page
-                });
+                var result = await _repository.ListWithParamsAsync(payload.Page, payload.Param);
 
                 return Ok(_mapper.Map<IEnumerable<PokemonModel>>(result));
             }

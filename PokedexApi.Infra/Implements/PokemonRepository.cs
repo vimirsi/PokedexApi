@@ -2,143 +2,141 @@ using PokedexApi.Domain.Dtos;
 using PokedexApi.Domain.Entities;
 using PokedexApi.Domain.Interfaces;
 
-namespace PokedexApi.Infra.Implements
+namespace PokedexApi.Infra.Implements;
+
+public class PokemonRepository : IPokemonRepository
 {
-    public class PokemonRepository : IPokemonRepository
+    private readonly DataContext _context;
+
+    public PokemonRepository(DataContext context)
     {
-        private readonly DataContext _context;
-        private static int _PageSize = 3;
+        _context = context;
+    }
 
-        public PokemonRepository(DataContext context)
+    public async Task<object> AddAsync(PokemonAddDTO dto)
+    {
+        Pokemon validation = _context.Pokemon
+            .Where(x => x.DexNumber == dto.DexNumber)
+            .FirstOrDefault();
+
+        if(validation != null)
         {
-            _context = context;
+            throw new Exception($"there is already a pokemon with the dex number: {dto.DexNumber}");
         }
 
-        public async Task<object> AddAsync(PokemonAddDTO dto)
+        var pokemon = new Pokemon()
         {
-            Pokemon validation = _context.Pokemon
-                .Where(x => x.DexNumber == dto.DexNumber)
-                .FirstOrDefault();
+            DexNumber = dto.DexNumber,
+            RelationshipPage = dto.RelationshipPage,
+            Name = dto.Name,
+            Image = dto.Image,
+            Description = dto.Description,
+            Height = dto.Height,
+            Weight = dto.Weight,
+            Gender = ((int)dto.Gender),
+            Rarity = ((int)dto.Rarity),
+            Region = dto.Region,
+        };
 
-            if(validation != null)
-            {
-                throw new Exception($"there is already a pokemon with the dex number: {dto.DexNumber}");
-            }
+        _context.Add(pokemon);
+        _context.SaveChanges();
 
-            var pokemon = new Pokemon()
-            {
-                DexNumber = dto.DexNumber,
-                RelationshipPage = dto.RelationshipPage,
-                Name = dto.Name,
-                Image = dto.Image,
-                Description = dto.Description,
-                Height = dto.Height,
-                Weight = dto.Weight,
-                Gender = ((int)dto.Gender),
-                Rarity = ((int)dto.Rarity),
-                Region = dto.Region,
-            };
+        return await Task.FromResult(new object{});
+    }
 
-            _context.Add(pokemon);
-            _context.SaveChanges();
+    public async Task<object> DeleteAsync(int dexNumber)
+    {
+        Pokemon pokemon = await _context.Pokemon.FindAsync(dexNumber);
 
-            return await Task.FromResult(new object{});
+        if(pokemon is null)
+        {
+            throw new Exception($"Not found pokemon with id {dexNumber}");
         }
 
-        public async Task<object> DeleteAsync(int dexNumber)
+        _context.Pokemon.Remove(pokemon);
+        _context.SaveChanges();
+
+        return await Task.FromResult(new object(){});
+    }
+
+    public async Task<Pokemon> GetByDexNumberAsync(int dexNumber)
+    {
+        Pokemon pokemon = _context.Pokemon
+            .Where(x => x.DexNumber == dexNumber)
+            .Select(x => new Pokemon{
+                DexNumber = x.DexNumber,
+                Name = x.Name,
+                Image = x.Image,
+                Description = x.Description,
+                Height = x.Height,
+                Weight = x.Weight,
+                Rarity = x.Rarity,
+                Region = x.Region,
+                Weakness = x.Weakness,
+                
+            })
+            .FirstOrDefault();
+
+        if(pokemon is null)
         {
-            Pokemon pokemon = await _context.Pokemon.FindAsync(dexNumber);
-
-            if(pokemon is null)
-            {
-                throw new Exception($"Not found pokemon with id {dexNumber}");
-            }
-
-            _context.Pokemon.Remove(pokemon);
-            _context.SaveChanges();
-
-            return await Task.FromResult(new object(){});
+            throw new Exception($"Not found pokemon with id {dexNumber}");
         }
 
-        public async Task<Pokemon> GetByDexNumberAsync(int dexNumber)
+        return await Task.FromResult(pokemon);
+    }
+
+    public async Task<IEnumerable<Pokemon>> ListByEvolutionAsync(int page)
+    {
+        if (page == 0)
         {
-            Pokemon pokemon = _context.Pokemon
-                .Where(x => x.DexNumber == dexNumber)
-                .Select(x => new Pokemon{
-                    DexNumber = x.DexNumber,
-                    Name = x.Name,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Height = x.Height,
-                    Weight = x.Weight,
-                    Rarity = x.Rarity,
-                    Region = x.Region,
-                    Weakness = x.Weakness,
-                    
-                })
-                .FirstOrDefault();
-
-            if(pokemon is null)
-            {
-                throw new Exception($"Not found pokemon with id {dexNumber}");
-            }
-
-            return await Task.FromResult(pokemon);
+            page = 1;
         }
 
-        public async Task<IEnumerable<Pokemon>> ListAllAsync(int page)
-        {
-            if (page == 0)
+        IEnumerable<Pokemon> pokemons = _context.Pokemon
+            .Select(x => new Pokemon
             {
-                page = 1;
-            }
+                DexNumber = x.DexNumber,
+                RelationshipPage = x.RelationshipPage,
+                Name = x.Name,
+                Image = x.Image,
+                Description = x.Description,
+                Height = x.Height,
+                Weight = x.Weight,
+                Gender = x.Gender,
+                Rarity = x.Rarity,
+                Region = x.Region,
+            })
+            .Where(x => x.RelationshipPage == page)
+            .OrderBy(x => x.DexNumber)
+            .ToList();
 
-            IEnumerable<Pokemon> pokemons = _context.Pokemon
-                .Select(x => new Pokemon
-                {
-                    DexNumber = x.DexNumber,
-                    RelationshipPage = x.RelationshipPage,
-                    Name = x.Name,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Height = x.Height,
-                    Weight = x.Weight,
-                    Gender = x.Gender,
-                    Rarity = x.Rarity,
-                    Region = x.Region,
-                })
-                .Where(x => x.RelationshipPage == page)
-                .OrderBy(x => x.DexNumber)
-                .ToList();
+        return await Task.FromResult(pokemons);
+    }
 
-            return await Task.FromResult(pokemons);
+    public async Task<IEnumerable<Pokemon>> ListWithParamsAsync(int page, string param)
+    {
+        if (page == 0)
+        {
+            page = 1;
         }
 
-        public async Task<IEnumerable<Pokemon>> ListWithParamsAsync(PokemonGetWithParamsDTO dto)
-        {
-            if (dto.Page == 0)
+        IEnumerable<Pokemon> pokemons = _context.Pokemon
+            .Select(x => new Pokemon
             {
-                dto.Page = 1;
-            }
+                DexNumber = x.DexNumber,
+                Name = x.Name,
+                Image = x.Image,
+                Description = x.Description,
+                Height = x.Height,
+                Weight = x.Weight,
+                Gender = x.Gender,
+                Rarity = x.Rarity,
+                Region = x.Region,
+            })
+            .Where(x => x.Name.Contains(param) || x.Region.Contains(param))
+            .OrderBy(x => x.DexNumber)
+            .ToList();
 
-            IEnumerable<Pokemon> pokemons = _context.Pokemon
-                .Select(x => new Pokemon
-                {
-                    DexNumber = x.DexNumber,
-                    Name = x.Name,
-                    Image = x.Image,
-                    Description = x.Description,
-                    Height = x.Height,
-                    Weight = x.Weight,
-                    Gender = x.Gender,
-                    Rarity = x.Rarity,
-                    Region = x.Region,
-                })
-                .Where(x => x.Name.Contains(dto.Param) || x.Region.Contains(dto.Param))
-                .OrderBy(x => x.DexNumber)
-                .ToList();
-
-            return await Task.FromResult(pokemons);
-        }
+        return await Task.FromResult(pokemons);
     }
 }
