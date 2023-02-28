@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] Pokedex</title>
+    <title>@ViewData["Title"] Pokédex</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PokedexApi.Web.styles.css" asp-append-version="true" />
@@ -15,8 +15,7 @@
             <!-- Container wrapper -->
             <div class="container-fluid">
                 <!-- Navbar brand -->
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PokedexApi</a>
-
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PokédexApi</a>
                 <!-- Toggle button -->
                 <button class="navbar-toggler"
                     type="button"
@@ -33,13 +32,15 @@
                     <!-- Left links -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                             <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Pokedex" asp-action="ListByEvolution">Pokémon</a>
                         </li>
                         <li class="nav-item">
-                             <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Pokemon" asp-action="ListByEvolution">Pokemons</a>
+                            <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Pokedex" asp-action="ListByEvolution">Quiz</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Pokedex" asp-action="ListByEvolution">Batalha</a>
                         </li>
-                    </ul> 
+                    </ul>
                 </div>
             </div>
         </nav>
