@@ -30,6 +30,7 @@ namespace Tests.Repository
         public void CreatePokemon_WhenCalled_ReturnSuccess()
         {
             // Arrange
+            DropDatabase();
 
             // Action
             repository.AddAsync(new PokemonAddDTO()
@@ -54,6 +55,7 @@ namespace Tests.Repository
         public void GetPokemon_WhenCalled_ReturnSuccess()
         {
             //Arrange
+            DropDatabase();
             List<Pokemon> assert = SetupPokemon();
 
             //Action
@@ -68,6 +70,7 @@ namespace Tests.Repository
         public void DeletePokemon_WhenCalled_ReturnSuccess()
         {
             //Arrange
+            DropDatabase();
             List<Pokemon> assert = SetupPokemon();
 
             //Action
@@ -82,7 +85,7 @@ namespace Tests.Repository
         public void ListByEvolution_WhenCalled_ReturnSuccess()
         {
             //Arrange
-
+            DropDatabase();
 
             //Action
 
@@ -96,7 +99,7 @@ namespace Tests.Repository
         public void ListWithParams_WhenCalled_ReturnSuccess()
         {
             //Arrange
-
+            DropDatabase();
 
             //Action
 
@@ -131,6 +134,13 @@ namespace Tests.Repository
             context.SaveChanges();
 
             return pokemons;
+        }
+
+        public void DropDatabase()
+        {
+            context.Database.EnsureDeleted();
+
+            context.Database.EnsureCreated();
         }
     }
 }

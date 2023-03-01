@@ -29,6 +29,7 @@ namespace Tests.Repository
         public void CreateEvolution_WhenCalled_ReturnSuccess()
         {
             //arrange
+            DropDatabase();
 
             //Act
             repository.AddAsync(new EvolutionAddDTO(){
@@ -46,6 +47,7 @@ namespace Tests.Repository
         public void GetEvolution_WhenCalled_ReturnSuccess()
         {
             //arrange
+            DropDatabase();
             Evolution assert = SetupEvolution();
 
             //Act
@@ -59,6 +61,7 @@ namespace Tests.Repository
         public void DeleteEvolution_WhenCalled_ReturnSuccess()
         {
             //arrange
+            DropDatabase();
             Evolution assert = SetupEvolution();
 
             //Act
@@ -105,6 +108,13 @@ namespace Tests.Repository
             context.SaveChanges();
 
             return evolution;
+        }
+
+        public void DropDatabase()
+        {
+            context.Database.EnsureDeleted();
+
+            context.Database.EnsureCreated();
         }
     }
 }
