@@ -86,13 +86,13 @@ namespace Tests.Repository
         {
             //Arrange
             DropDatabase();
+            List<Pokemon> assert = SetupPokemon();
 
             //Action
-
+            Task<IEnumerable<Pokemon>> response = repository.ListByEvolutionAsync(1);
 
             //Assert
-
-
+            Assert.AreEqual(response.Result.Count(), 2);
         }
 
         [TestMethod]
@@ -100,13 +100,13 @@ namespace Tests.Repository
         {
             //Arrange
             DropDatabase();
+            List<Pokemon> assert = SetupPokemon();
 
             //Action
-
+            Task<IEnumerable<Pokemon>> response = repository.ListWithParamsAsync(1, "Bulbassaur1");
 
             //Assert
-
-
+            Assert.AreEqual(response.Result.Count(), 1);            
         }
 
         public List<Pokemon> SetupPokemon()
@@ -119,7 +119,7 @@ namespace Tests.Repository
                 {
                     DexNumber = i,
                     RelationshipPage = 1,
-                    Name = "Bulbassaur",
+                    Name = $"Bulbassaur{i}",
                     Image = "url.jpg",
                     Description = "lorem ipsum",
                     Height = 5,
